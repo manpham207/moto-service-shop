@@ -530,7 +530,7 @@ export default function Home() {
           <div>
             <h4 className="text-white font-bold text-xs md:text-sm mb-2 uppercase">Địa Chỉ & Giờ Làm Việc</h4>
             <div className="space-y-1.5 text-xs">
-              <p className="flex items-center gap-2"><MapPin className="w-4 h-4 text-red-600 shrink-0" /> 123 Đường Số 1, Phường 2, Tân Bình, TP.HCM</p>
+              <p className="flex items-center gap-2"><MapPin className="w-4 h-4 text-red-600 shrink-0" /> 1229 Bùi Văn Hòa, Long Bình, Đồng Nai, Vietnam</p>
               <p className="flex items-center gap-2"><Clock className="w-4 h-4 text-red-600 shrink-0" /> 07:30 - 19:30 (Cả Thứ 7 & Chủ Nhật)</p>
             </div>
           </div>
