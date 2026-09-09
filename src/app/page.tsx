@@ -144,7 +144,7 @@ export default function Home() {
             </div>
             <div>
               <span className="font-black text-lg md:text-xl tracking-tight text-slate-900 leading-none block">
-                SỬA XE <span className="text-red-600"> CHÍNH</span>
+                SỬA XE <span className="text-red-600"> CHÍNHhhhh</span>
               </span>
               <span className="text-[9px] md:text-[10px] text-slate-500 uppercase tracking-wider block font-semibold">
                 Sửa Xe & Phụ Tùng
