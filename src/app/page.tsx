@@ -43,8 +43,8 @@ export default function Home() {
   // Cart store
   const { items, addItem, removeItem, clearCart, total } = useCartStore();
 
-  const HOTLINE = '0988875229';
-  const HOTLINE_DISPLAY = '0908.875.229';
+  const HOTLINE = '0908875245';
+  const HOTLINE_DISPLAY = '0908.875.245';
   const ZALO_LINK = `https://zalo.me/${HOTLINE}`;
 
   useEffect(() => {
