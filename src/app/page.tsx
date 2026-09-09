@@ -43,7 +43,6 @@ export default function Home() {
   // Cart store
   const { items, addItem, removeItem, clearCart, total } = useCartStore();
 
-  // Handle scroll for back-to-top button
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 300) {
@@ -73,9 +72,8 @@ export default function Home() {
   const categories = ['Tất cả', 'Truyền động', 'Phanh xe', 'Dầu nhớt', 'Vỏ xe', 'Hệ thống điện'];
   const totalCartCount = items.reduce((a, b) => a + b.quantity, 0);
 
-  // Số điện thoại & Zalo liên hệ
-  const HOTLINE = '0909123456';
-  const HOTLINE_DISPLAY = '0909.123.456';
+  const HOTLINE = '0908875245';
+  const HOTLINE_DISPLAY = '0908.875.245';
   const ZALO_LINK = `https://zalo.me/${HOTLINE}`;
 
   return (
@@ -95,14 +93,14 @@ export default function Home() {
           </div>
           <a 
             href={`tel:${HOTLINE}`}
-            className="bg-yellow-400 hover:bg-yellow-300 text-slate-950 px-3 py-1 rounded-full font-black text-xs flex items-center gap-1 transition shadow"
+            className="bg-yellow-400 hover:bg-yellow-300 text-slate-950 px-3 py-1 rounded-full font-black text-xs flex items-center gap-1 transition shadow shrink-0 ml-2"
           >
             <PhoneCall className="w-3 h-3" /> GỌI NGAY
           </a>
         </div>
       </div>
 
-      {/* Top Header */}
+      {/* 2. Header Chính (Gọn gàng trên Mobile, không bị trùng nút gọi) */}
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 h-14 md:h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -111,7 +109,7 @@ export default function Home() {
             </div>
             <div>
               <span className="font-black text-lg md:text-xl tracking-tight text-slate-900 leading-none block">
-                MOTO<span className="text-red-600">PRO</span>
+                SỬA XE <span className="text-red-600"> CHÍNH</span>
               </span>
               <span className="text-[9px] md:text-[10px] text-slate-500 uppercase tracking-wider block font-semibold">
                 Sửa Xe & Phụ Tùng
@@ -126,14 +124,14 @@ export default function Home() {
             <a href="#lien-he" className="hover:text-red-600 transition">Liên Hệ</a>
           </nav>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
+            {/* Ẩn nút hotline ở header trên Mobile để tránh trùng lặp */}
             <a 
               href={`tel:${HOTLINE}`} 
-              className="flex items-center gap-1.5 text-xs bg-red-600 text-white md:bg-red-50 md:text-red-700 px-3 py-1.5 md:py-2 rounded-full font-bold border border-red-600 md:border-red-100 hover:bg-red-700 md:hover:bg-red-100 transition shadow-sm"
+              className="hidden md:flex items-center gap-1.5 text-xs bg-red-50 text-red-700 px-3 py-2 rounded-full font-bold border border-red-100 hover:bg-red-100 transition shadow-sm"
             >
-              <PhoneCall className="w-3.5 h-3.5 animate-pulse" />
-              <span className="inline md:hidden">Cứu Hộ</span>
-              <span className="hidden md:inline">Hotline: {HOTLINE_DISPLAY}</span>
+              <PhoneCall className="w-3.5 h-3.5 text-red-600 animate-pulse" />
+              <span>Hotline: {HOTLINE_DISPLAY}</span>
             </a>
 
             <button 
@@ -152,7 +150,7 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Hero Section */}
+      {/* 3. Hero Section */}
       <section className="relative overflow-hidden bg-slate-950 text-white py-12 md:py-20">
         <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#ef4444_1px,transparent_1px)] [background-size:16px_16px]"></div>
         <div className="max-w-7xl mx-auto px-4 relative z-10 grid md:grid-cols-2 gap-8 md:gap-10 items-center">
@@ -167,7 +165,7 @@ export default function Home() {
               Đội phản ứng nhanh cứu hộ tận nơi khi gặp sự cố trên đường hoặc tại nhà. Báo đúng giá, phụ tùng chính hãng bảo hành dài hạn.
             </p>
 
-            {/* Box Cứu Hộ Trực Tiếp */}
+            {/* Box Cứu Hộ Nhanh */}
             <div className="bg-red-950/60 border border-red-500/40 p-4 rounded-2xl mb-6 backdrop-blur-sm">
               <div className="flex items-center gap-2 text-red-400 font-bold text-xs uppercase mb-1">
                 <AlertTriangle className="w-4 h-4 text-red-400 animate-bounce" /> Bạn đang bị hỏng xe giữa đường?
@@ -206,7 +204,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Quick stats */}
+          {/* Thống kê nhanh */}
           <div className="grid grid-cols-2 gap-3 md:gap-4">
             <div className="bg-slate-900/90 border border-slate-800 p-4 md:p-5 rounded-2xl text-center md:text-left">
               <div className="text-red-500 font-extrabold text-2xl md:text-3xl mb-0.5">15 Phút</div>
@@ -228,7 +226,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Services Section */}
+      {/* 4. Danh Mục Dịch Vụ */}
       <section id="dich-vu" className="py-12 md:py-16 max-w-7xl mx-auto px-4">
         <div className="text-center max-w-2xl mx-auto mb-8 md:mb-12">
           <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900">Dịch Vụ Sửa Chữa & Bảo Dưỡng</h2>
@@ -256,7 +254,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Parts Store Section */}
+      {/* 5. Cửa Hàng Phụ Tùng */}
       <section id="phu-tung" className="py-12 md:py-16 bg-slate-100">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 md:mb-8 gap-3">
@@ -318,7 +316,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Booking Form Section */}
+      {/* 6. Form Đặt Lịch Hẹn */}
       <section id="dat-lich" className="py-12 md:py-16 max-w-3xl mx-auto px-4">
         <div className="bg-white border border-slate-200 rounded-3xl p-5 md:p-8 shadow-sm">
           <div className="text-center mb-6 md:mb-8">
@@ -420,7 +418,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Cart Drawer Modal */}
+      {/* 7. Giỏ Hàng Drawer */}
       {isCartOpen && (
         <div className="fixed inset-0 z-50 flex justify-end bg-black/50 backdrop-blur-sm animate-in fade-in">
           <div className="w-full max-w-md bg-white h-full flex flex-col shadow-2xl p-5 md:p-6">
@@ -479,7 +477,7 @@ export default function Home() {
         </div>
       )}
 
-      {/* VietQR Modal */}
+      {/* 8. VietQR Modal */}
       {isCheckoutOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
           <div className="bg-white rounded-3xl p-5 md:p-6 max-w-sm w-full text-center relative shadow-2xl">
@@ -517,12 +515,12 @@ export default function Home() {
         </div>
       )}
 
-      {/* Footer */}
+      {/* 9. Footer */}
       <footer id="lien-he" className="bg-slate-950 text-slate-400 py-10 border-t border-slate-900 text-sm">
         <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           <div>
             <div className="flex items-center gap-2 text-white font-bold text-base md:text-lg mb-2">
-              <Wrench className="w-5 h-5 text-red-600" /> MOTOPRO SERVICE
+              <Wrench className="w-5 h-5 text-red-600" /> MOTO SERVICE
             </div>
             <p className="text-xs leading-relaxed text-slate-400">
               Trạm dịch vụ kỹ thuật sửa xe máy uy tín, phân phối linh kiện phụ tùng chính hãng và cứu hộ khẩn cấp 24/7.
@@ -546,13 +544,11 @@ export default function Home() {
           </div>
         </div>
         <div className="max-w-7xl mx-auto px-4 mt-6 pt-4 border-t border-slate-900 text-center text-[11px] text-slate-600">
-          © 2026 MotoPro. Sẵn sàng phục vụ 24/7.
+          © 2026 Sửa xe Chính. Sẵn sàng phục vụ 24/7.
         </div>
       </footer>
 
-      {/* --- CỤM CÁC NÚT TƯƠNG TÁC NHANH (FLOATING ACTIONS) --- */}
-
-      {/* Cụm nút liên hệ cố định góc phải (Desktop & Mobile) */}
+      {/* 10. Cụm Nút Tương Tác Nổi Góc Phải (Zalo, Hotline, Cuộn lên đầu trang) */}
       <div className="fixed bottom-24 md:bottom-8 right-4 z-40 flex flex-col items-end gap-3">
         {/* Nút Chat Zalo */}
         <a 
@@ -570,7 +566,7 @@ export default function Home() {
           </div>
         </a>
 
-        {/* Nút Gọi Hotline Rung Cảnh Báo */}
+        {/* Nút Gọi Hotline Có Hiệu Ứng Rung */}
         <a 
           href={`tel:${HOTLINE}`} 
           aria-label="Gọi hotline cứu hộ"
@@ -583,7 +579,7 @@ export default function Home() {
           <PhoneCall className="w-6 h-6 animate-pulse" />
         </a>
 
-        {/* Nút Cuộn Lên Đầu Trang (Back to top) */}
+        {/* Nút Cuộn Lên Đầu Trang */}
         {showBackToTop && (
           <button
             onClick={scrollToTop}
@@ -595,7 +591,7 @@ export default function Home() {
         )}
       </div>
 
-      {/* Mobile Bottom Navigation Bar */}
+      {/* 11. Thanh Điều Hướng Dưới Cùng (Chỉ hiện trên Mobile) */}
       <nav className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 py-2 px-6 flex justify-between items-center md:hidden">
         <a href="#" className="flex flex-col items-center gap-0.5 text-slate-600 hover:text-red-600">
           <HomeIcon className="w-5 h-5" />
