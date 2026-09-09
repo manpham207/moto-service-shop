@@ -1,0 +1,81 @@
+export const SERVICES = [
+  {
+    id: 's1',
+    title: 'Bảo Dưỡng Toàn Diện 10 Bước',
+    price: '250.000đ',
+    desc: 'Vệ sinh kim phun, buồng đốt, vệ sinh nồi, căn chỉnh thắng, kiểm tra lọc gió và dàn chân.',
+    tag: 'Phổ biến',
+  },
+  {
+    id: 's2',
+    title: 'Cứu Hộ & Sửa Lưu Động',
+    price: 'Tùy cự ly',
+    desc: 'Vá vỏ không ruột, thay ruột tận nơi, kích bình ắc quy, xử lý chết máy giữa đường.',
+    tag: 'Khẩn cấp 24/7',
+  },
+  {
+    id: 's3',
+    title: 'Độ Xe & Làm Nồi Êm Bốc',
+    price: 'Từ 450.000đ',
+    desc: 'Khắc phục rung đầu tay ga, thay bi nồi Bando, dây curoa Bando/Gates chính hãng.',
+    tag: 'Kỹ thuật cao',
+  },
+  {
+    id: 's4',
+    title: 'Thay Nhớt & Nước Mát Máy',
+    price: 'Từ 110.000đ',
+    desc: 'Đầy đủ nhớt chính hãng Motul, Shell, Liqui Moly, Repsol chính ngạch.',
+    tag: 'Nhanh 15p',
+  },
+];
+
+export const PRODUCTS = [
+  {
+    id: 'p1',
+    name: 'Nhông Sên Dĩa DID Vàng 428D (10mm)',
+    category: 'Truyền động',
+    model: 'Exciter / Winner',
+    price: 390000,
+    image: 'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=500&auto=format&fit=crop&q=60',
+  },
+  {
+    id: 'p2',
+    name: 'Bố Thắng Đĩa Trước Nissin Samurai',
+    category: 'Phanh xe',
+    model: 'Air Blade / Vario / Vision',
+    price: 260000,
+    image: 'https://images.unsplash.com/photo-1486006920555-c77dce18193b?w=500&auto=format&fit=crop&q=60',
+  },
+  {
+    id: 'p3',
+    name: 'Nhớt Motul 7100 4T 10W40 (1L)',
+    category: 'Dầu nhớt',
+    model: 'Tất cả dòng xe số & tay côn',
+    price: 240000,
+    image: 'https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=500&auto=format&fit=crop&q=60',
+  },
+  {
+    id: 'p4',
+    name: 'Dây Curoa Bando Cao Cấp',
+    category: 'Truyền động',
+    model: 'Lead 125 / PCX / SH Mode',
+    price: 320000,
+    image: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=500&auto=format&fit=crop&q=60',
+  },
+  {
+    id: 'p5',
+    name: 'Bugi Iridium Denso IU24',
+    category: 'Hệ thống điện',
+    model: 'Tất cả các dòng xe',
+    price: 210000,
+    image: 'https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=500&auto=format&fit=crop&q=60',
+  },
+  {
+    id: 'p6',
+    name: 'Lốp Michelin City Extra 90/90-14',
+    category: 'Vỏ xe',
+    model: 'Air Blade / Vision / Click',
+    price: 580000,
+    image: 'https://images.unsplash.com/photo-1578844251758-2f71da64c96f?w=500&auto=format&fit=crop&q=60',
+  },
+];
