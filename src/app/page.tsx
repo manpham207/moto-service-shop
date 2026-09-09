@@ -28,6 +28,7 @@ export default function Home() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   // Booking Form State
   const [booking, setBooking] = useState({
@@ -63,18 +64,15 @@ export default function Home() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Xử lý gửi lịch hẹn qua Zalo
-  const handleBookingSubmit = (e: React.FormEvent) => {
+  const handleBookingSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // 1. Kiểm tra số điện thoại chuẩn Việt Nam (10 số)
     const phoneRegex = /(0[3|5|7|8|9])+([0-9]{8})\b/;
     if (!phoneRegex.test(booking.phone.trim())) {
       alert("Vui lòng nhập đúng định dạng số điện thoại 10 số (ví dụ: 0908xxxxxx)!");
       return;
     }
 
-    // Định dạng lại ngày giờ cho dễ đọc
     let formattedDate = booking.date;
     if (booking.date) {
       try {
@@ -85,23 +83,41 @@ export default function Home() {
       }
     }
 
-    // 2. Soạn tin nhắn tự động
-    const message = 
-`Xin chào tiệm SỬA XE CHÍNH, tôi muốn đặt lịch hẹn làm xe:
-• Khách hàng: ${booking.name.trim()}
-• Số điện thoại: ${booking.phone.trim()}
-• Dòng xe: ${booking.bikeModel.trim()}
-• Dịch vụ yêu cầu: ${booking.service}
-• Thời gian dự kiến: ${formattedDate || "Trong ngày hôm nay"}
-• Triệu chứng / Yêu cầu: ${booking.note.trim() || "Kiểm tra tổng quát"}`;
+    setIsSubmitting(true);
 
-    // 3. Mở Zalo để gửi
-    const zaloUrl = `https://zalo.me/${HOTLINE}?text=${encodeURIComponent(message)}`;
-    window.open(zaloUrl, '_blank');
+    try {
+      const res = await fetch('/api/booking', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: booking.name.trim(),
+          phone: booking.phone.trim(),
+          bikeModel: booking.bikeModel.trim(),
+          service: booking.service,
+          date: formattedDate,
+          note: booking.note.trim(),
+        }),
+      });
 
-    // 4. Hiển thị thông báo thành công
-    setBookingSuccess(true);
-    setTimeout(() => setBookingSuccess(false), 5000);
+      if (res.ok) {
+        setBookingSuccess(true);
+        setBooking({
+          name: '',
+          phone: '',
+          bikeModel: '',
+          service: 'Bảo Dưỡng Toàn Diện 10 Bước',
+          date: '',
+          note: ''
+        });
+        setTimeout(() => setBookingSuccess(false), 6000);
+      } else {
+        alert('Có lỗi xảy ra khi gửi. Vui lòng liên hệ trực tiếp hotline: ' + HOTLINE_DISPLAY);
+      }
+    } catch {
+      alert('Không thể kết nối. Vui lòng kiểm tra lại mạng hoặc gọi hotline!');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const filteredProducts = selectedFilter === 'Tất cả' 
@@ -113,7 +129,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 pb-20 md:pb-0 relative">
-      {/* 1. Thanh Cảnh Báo Cứu Hộ Nổi Bật Trên Cùng */}
       <div className="bg-gradient-to-r from-red-600 via-rose-600 to-red-700 text-white px-4 py-2 text-xs md:text-sm font-semibold shadow-md">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -135,7 +150,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* 2. Header Chính */}
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 h-14 md:h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -144,7 +158,7 @@ export default function Home() {
             </div>
             <div>
               <span className="font-black text-lg md:text-xl tracking-tight text-slate-900 leading-none block">
-                SỬA XE <span className="text-red-600"> CHÍNHhhhh</span>
+                SỬA XE <span className="text-red-600"> CHÍNH</span>
               </span>
               <span className="text-[9px] md:text-[10px] text-slate-500 uppercase tracking-wider block font-semibold">
                 Sửa Xe & Phụ Tùng
@@ -184,7 +198,6 @@ export default function Home() {
         </div>
       </header>
 
-      {/* 3. Hero Section */}
       <section className="relative overflow-hidden bg-slate-950 text-white py-12 md:py-20">
         <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#ef4444_1px,transparent_1px)] [background-size:16px_16px]"></div>
         <div className="max-w-7xl mx-auto px-4 relative z-10 grid md:grid-cols-2 gap-8 md:gap-10 items-center">
@@ -199,7 +212,6 @@ export default function Home() {
               Đội phản ứng nhanh cứu hộ tận nơi khi gặp sự cố trên đường hoặc tại nhà. Báo đúng giá, phụ tùng chính hãng bảo hành dài hạn.
             </p>
 
-            {/* Box Cứu Hộ Nhanh */}
             <div className="bg-red-950/60 border border-red-500/40 p-4 rounded-2xl mb-6 backdrop-blur-sm">
               <div className="flex items-center gap-2 text-red-400 font-bold text-xs uppercase mb-1">
                 <AlertTriangle className="w-4 h-4 text-red-400 animate-bounce" /> Bạn đang bị hỏng xe giữa đường?
@@ -238,7 +250,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Thống kê nhanh */}
           <div className="grid grid-cols-2 gap-3 md:gap-4">
             <div className="bg-slate-900/90 border border-slate-800 p-4 md:p-5 rounded-2xl text-center md:text-left">
               <div className="text-red-500 font-extrabold text-2xl md:text-3xl mb-0.5">15 Phút</div>
@@ -260,7 +271,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4. Danh Mục Dịch Vụ */}
       <section id="dich-vu" className="py-12 md:py-16 max-w-7xl mx-auto px-4">
         <div className="text-center max-w-2xl mx-auto mb-8 md:mb-12">
           <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900">Dịch Vụ Sửa Chữa & Bảo Dưỡng</h2>
@@ -288,7 +298,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 5. Cửa Hàng Phụ Tùng */}
       <section id="phu-tung" className="py-12 md:py-16 bg-slate-100">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 md:mb-8 gap-3">
@@ -350,7 +359,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 6. Form Đặt Lịch Hẹn (Tích hợp gửi Zalo) */}
       <section id="dat-lich" className="py-12 md:py-16 max-w-3xl mx-auto px-4">
         <div className="bg-white border border-slate-200 rounded-3xl p-5 md:p-8 shadow-sm">
           <div className="text-center mb-6 md:mb-8">
@@ -364,8 +372,8 @@ export default function Home() {
           {bookingSuccess ? (
             <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-6 text-center text-emerald-800">
               <CheckCircle2 className="w-10 h-10 mx-auto text-emerald-600 mb-2" />
-              <h3 className="text-base md:text-lg font-bold">Đã mở kết nối Zalo!</h3>
-              <p className="text-xs md:text-sm mt-1">Vui lòng bấm nút Gửi trên Zalo để hoàn tất gửi thông tin cho xưởng nhé.</p>
+              <h3 className="text-base md:text-lg font-bold">Đặt lịch thành công!</h3>
+              <p className="text-xs md:text-sm mt-1">Xưởng đã tiếp nhận thông tin và sẽ gọi xác nhận trong vòng 10 phút.</p>
             </div>
           ) : (
             <form onSubmit={handleBookingSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
@@ -442,16 +450,17 @@ export default function Home() {
 
               <button
                 type="submit"
-                className="md:col-span-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl shadow-lg shadow-blue-600/30 transition text-sm uppercase tracking-wide mt-1 flex items-center justify-center gap-2"
+                disabled={isSubmitting}
+                className="md:col-span-2 bg-red-600 hover:bg-red-700 disabled:bg-slate-400 text-white font-bold py-3 rounded-xl shadow-lg shadow-red-600/30 transition text-sm uppercase tracking-wide mt-1 flex items-center justify-center gap-2 cursor-pointer"
               >
-                <Send className="w-4 h-4" /> Gửi Lịch Hẹn Qua Zalo
+                <Send className="w-4 h-4" />
+                {isSubmitting ? 'Đang gửi thông tin...' : 'Gửi Lịch Hẹn Ngay'}
               </button>
             </form>
           )}
         </div>
       </section>
 
-      {/* 7. Giỏ Hàng Drawer */}
       {isCartOpen && (
         <div className="fixed inset-0 z-50 flex justify-end bg-black/50 backdrop-blur-sm animate-in fade-in">
           <div className="w-full max-w-md bg-white h-full flex flex-col shadow-2xl p-5 md:p-6">
@@ -510,7 +519,6 @@ export default function Home() {
         </div>
       )}
 
-      {/* 8. VietQR Modal */}
       {isCheckoutOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
           <div className="bg-white rounded-3xl p-5 md:p-6 max-w-sm w-full text-center relative shadow-2xl">
@@ -548,7 +556,6 @@ export default function Home() {
         </div>
       )}
 
-      {/* 9. Footer */}
       <footer id="lien-he" className="bg-slate-950 text-slate-400 py-10 border-t border-slate-900 text-sm">
         <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           <div>
@@ -581,9 +588,7 @@ export default function Home() {
         </div>
       </footer>
 
-      {/* 10. Cụm Nút Tương Tác Nổi Góc Phải (Zalo, Hotline, Cuộn lên đầu trang) */}
       <div className="fixed bottom-24 md:bottom-8 right-4 z-40 flex flex-col items-end gap-3">
-        {/* Nút Chat Zalo */}
         <a 
           href={ZALO_LINK} 
           target="_blank" 
@@ -599,7 +604,6 @@ export default function Home() {
           </div>
         </a>
 
-        {/* Nút Gọi Hotline Có Hiệu Ứng Rung */}
         <a 
           href={`tel:${HOTLINE}`} 
           aria-label="Gọi hotline cứu hộ"
@@ -612,7 +616,6 @@ export default function Home() {
           <PhoneCall className="w-6 h-6 animate-pulse" />
         </a>
 
-        {/* Nút Cuộn Lên Đầu Trang */}
         {showBackToTop && (
           <button
             onClick={scrollToTop}
@@ -624,7 +627,6 @@ export default function Home() {
         )}
       </div>
 
-      {/* 11. Thanh Điều Hướng Dưới Cùng (Chỉ hiện trên Mobile) */}
       <nav className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 py-2 px-6 flex justify-between items-center md:hidden">
         <a href="#" className="flex flex-col items-center gap-0.5 text-slate-600 hover:text-red-600">
           <HomeIcon className="w-5 h-5" />
