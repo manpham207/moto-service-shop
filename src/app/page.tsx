@@ -43,6 +43,10 @@ export default function Home() {
   // Cart store
   const { items, addItem, removeItem, clearCart, total } = useCartStore();
 
+  const HOTLINE = '0988896079';
+  const HOTLINE_DISPLAY = '0988.896.079';
+  const ZALO_LINK = `https://zalo.me/${HOTLINE}`;
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 300) {
@@ -59,8 +63,43 @@ export default function Home() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  // Xử lý gửi lịch hẹn qua Zalo
   const handleBookingSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // 1. Kiểm tra số điện thoại chuẩn Việt Nam (10 số)
+    const phoneRegex = /(0[3|5|7|8|9])+([0-9]{8})\b/;
+    if (!phoneRegex.test(booking.phone.trim())) {
+      alert("Vui lòng nhập đúng định dạng số điện thoại 10 số (ví dụ: 0908xxxxxx)!");
+      return;
+    }
+
+    // Định dạng lại ngày giờ cho dễ đọc
+    let formattedDate = booking.date;
+    if (booking.date) {
+      try {
+        const d = new Date(booking.date);
+        formattedDate = `${d.getHours()}h${d.getMinutes().toString().padStart(2, '0')} ngày ${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
+      } catch {
+        formattedDate = booking.date;
+      }
+    }
+
+    // 2. Soạn tin nhắn tự động
+    const message = 
+`Xin chào tiệm SỬA XE CHÍNH, tôi muốn đặt lịch hẹn làm xe:
+• Khách hàng: ${booking.name.trim()}
+• Số điện thoại: ${booking.phone.trim()}
+• Dòng xe: ${booking.bikeModel.trim()}
+• Dịch vụ yêu cầu: ${booking.service}
+• Thời gian dự kiến: ${formattedDate || "Trong ngày hôm nay"}
+• Triệu chứng / Yêu cầu: ${booking.note.trim() || "Kiểm tra tổng quát"}`;
+
+    // 3. Mở Zalo để gửi
+    const zaloUrl = `https://zalo.me/${HOTLINE}?text=${encodeURIComponent(message)}`;
+    window.open(zaloUrl, '_blank');
+
+    // 4. Hiển thị thông báo thành công
     setBookingSuccess(true);
     setTimeout(() => setBookingSuccess(false), 5000);
   };
@@ -71,10 +110,6 @@ export default function Home() {
 
   const categories = ['Tất cả', 'Truyền động', 'Phanh xe', 'Dầu nhớt', 'Vỏ xe', 'Hệ thống điện'];
   const totalCartCount = items.reduce((a, b) => a + b.quantity, 0);
-
-  const HOTLINE = '0908875245';
-  const HOTLINE_DISPLAY = '0908.875.245';
-  const ZALO_LINK = `https://zalo.me/${HOTLINE}`;
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 pb-20 md:pb-0 relative">
@@ -100,7 +135,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* 2. Header Chính (Gọn gàng trên Mobile, không bị trùng nút gọi) */}
+      {/* 2. Header Chính */}
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 h-14 md:h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -125,7 +160,6 @@ export default function Home() {
           </nav>
 
           <div className="flex items-center gap-3">
-            {/* Ẩn nút hotline ở header trên Mobile để tránh trùng lặp */}
             <a 
               href={`tel:${HOTLINE}`} 
               className="hidden md:flex items-center gap-1.5 text-xs bg-red-50 text-red-700 px-3 py-2 rounded-full font-bold border border-red-100 hover:bg-red-100 transition shadow-sm"
@@ -316,7 +350,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 6. Form Đặt Lịch Hẹn */}
+      {/* 6. Form Đặt Lịch Hẹn (Tích hợp gửi Zalo) */}
       <section id="dat-lich" className="py-12 md:py-16 max-w-3xl mx-auto px-4">
         <div className="bg-white border border-slate-200 rounded-3xl p-5 md:p-8 shadow-sm">
           <div className="text-center mb-6 md:mb-8">
@@ -324,19 +358,19 @@ export default function Home() {
               Ưu tiên sửa trước
             </span>
             <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 mt-2">Đặt Lịch Hẹn Làm Xe</h2>
-            <p className="text-slate-500 text-xs md:text-sm mt-1">Tránh phải chờ đợi giờ cao điểm, thợ chuẩn bị sẵn phụ tùng</p>
+            <p className="text-slate-500 text-xs md:text-sm mt-1">Tránh phải chờ đợi giờ cao điểm, xưởng chuẩn bị sẵn phụ tùng</p>
           </div>
 
           {bookingSuccess ? (
             <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-6 text-center text-emerald-800">
               <CheckCircle2 className="w-10 h-10 mx-auto text-emerald-600 mb-2" />
-              <h3 className="text-base md:text-lg font-bold">Đặt lịch thành công!</h3>
-              <p className="text-xs md:text-sm mt-1">Xưởng sẽ gọi xác nhận trong vòng 10 phút.</p>
+              <h3 className="text-base md:text-lg font-bold">Đã mở kết nối Zalo!</h3>
+              <p className="text-xs md:text-sm mt-1">Vui lòng bấm nút Gửi trên Zalo để hoàn tất gửi thông tin cho xưởng nhé.</p>
             </div>
           ) : (
             <form onSubmit={handleBookingSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Họ và Tên</label>
+                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Họ và Tên *</label>
                 <input
                   type="text"
                   required
@@ -348,7 +382,7 @@ export default function Home() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Số Điện Thoại</label>
+                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Số Điện Thoại *</label>
                 <input
                   type="tel"
                   required
@@ -360,7 +394,7 @@ export default function Home() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Dòng Xe</label>
+                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Dòng Xe *</label>
                 <input
                   type="text"
                   required
@@ -381,7 +415,7 @@ export default function Home() {
                   {SERVICES.map((s) => (
                     <option key={s.id} value={s.title}>{s.title}</option>
                   ))}
-                  <option value="Khác">Kiểm tra tổng quát / Vấn đề khác</option>
+                  <option value="Kiểm tra tổng quát / Vấn đề khác">Kiểm tra tổng quát / Vấn đề khác</option>
                 </select>
               </div>
 
@@ -389,7 +423,6 @@ export default function Home() {
                 <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Thời Gian Dự Kiến Tới</label>
                 <input
                   type="datetime-local"
-                  required
                   className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-red-600 text-sm"
                   value={booking.date}
                   onChange={(e) => setBooking({ ...booking, date: e.target.value })}
@@ -409,9 +442,9 @@ export default function Home() {
 
               <button
                 type="submit"
-                className="md:col-span-2 bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl shadow-lg shadow-red-600/30 transition text-sm uppercase tracking-wide mt-1"
+                className="md:col-span-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl shadow-lg shadow-blue-600/30 transition text-sm uppercase tracking-wide mt-1 flex items-center justify-center gap-2"
               >
-                Gửi Lịch Hẹn
+                <Send className="w-4 h-4" /> Gửi Lịch Hẹn Qua Zalo
               </button>
             </form>
           )}
@@ -520,7 +553,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           <div>
             <div className="flex items-center gap-2 text-white font-bold text-base md:text-lg mb-2">
-              <Wrench className="w-5 h-5 text-red-600" /> MOTO SERVICE
+              <Wrench className="w-5 h-5 text-red-600" /> SỬA XE CHÍNH
             </div>
             <p className="text-xs leading-relaxed text-slate-400">
               Trạm dịch vụ kỹ thuật sửa xe máy uy tín, phân phối linh kiện phụ tùng chính hãng và cứu hộ khẩn cấp 24/7.
