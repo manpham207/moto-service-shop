@@ -159,7 +159,7 @@ export default function Home() {
               <ShieldCheck className="w-3.5 h-3.5" /> Thợ tay nghề cao - Phục vụ tận nơi
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-3 md:mb-4">
-              Sửa Xe Máy Lưu Động & Phụ Tùng <span className="text-red-500">Chính Hãng</span>
+              Sửa Xe Máy & Phụ Tùng <span className="text-red-500">Chính Hãng</span>
             </h1>
             <p className="text-slate-400 text-sm md:text-lg mb-6">
               Đội phản ứng nhanh cứu hộ tận nơi khi gặp sự cố trên đường hoặc tại nhà. Báo đúng giá, phụ tùng chính hãng bảo hành dài hạn.
