@@ -6,8 +6,8 @@ export async function POST(req: Request) {
     const { name, phone, bikeModel, service, date, note } = body;
 
     // Thay mã Token và Chat ID của bạn vào 2 dòng này
-    const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || 'DÁN_TOKEN_CỦA_BẠN_VÀO_ĐÂY';
-    const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID || 'DÁN_CHAT_ID_VÀO_ĐÂY';
+    const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8838303180:AAGuJGJcO5qFNj38VuYTmWVMUqx5TN11Kg8';
+    const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID || '1819933781';
 
     const message = 
 `🔔 <b>LỊCH HẸN SỬA XE MỚI!</b>
