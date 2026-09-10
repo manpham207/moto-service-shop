@@ -18,19 +18,48 @@ import {
   Home as HomeIcon, 
   ArrowUp, 
   AlertTriangle,
-  Send
+  Send,
+  Navigation
 } from 'lucide-react';
 import { SERVICES, PRODUCTS } from '@/data/mockData';
 import { useCartStore } from '@/lib/cartStore';
 
 export default function Home() {
   const [selectedFilter, setSelectedFilter] = useState('Tất cả');
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 4;
+
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
-  // Booking Form State
+
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const BANNER_SLIDES = [
+    {
+      badge: 'Thợ tay nghề cao - Phục vụ tận nơi',
+      title: 'Sửa Xe Máy & Phụ Tùng',
+      highlight: 'Chính Hãng',
+      desc: 'Đội phản ứng nhanh cứu hộ tận nơi khi gặp sự cố trên đường hoặc tại nhà. Báo đúng giá, phụ tùng chính hãng bảo hành dài hạn.',
+      image: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1200&q=80',
+    },
+    {
+      badge: 'Cứu hộ khẩn cấp 24/7',
+      title: 'Cứu Hộ Chết Máy - Thủng Lốp',
+      highlight: 'Tận Nơi 15 Phút',
+      desc: 'Hỗ trợ vá vỏ lưu động, kích sạc bình ắc quy, xử lý xe chết máy ngập nước thần tốc khu vực Long Bình, Tam Phước, Vòng xoay Cổng 11.',
+      image: 'https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=1200&q=80',
+    },
+    {
+      badge: 'Bảo dưỡng tiêu chuẩn',
+      title: 'Bảo Dưỡng Toàn Diện Xe Tay Ga',
+      highlight: 'Êm Ái Tiết Kiệm Xăng',
+      desc: 'Vệ sinh kim phun, buồng đốt, làm nồi, thay nhớt cao cấp giúp xe vận hành mượt mà và bền bỉ như xe mới.',
+      image: 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=1200&q=80',
+    },
+  ];
+
   const [booking, setBooking] = useState({
     name: '',
     phone: '',
@@ -41,12 +70,21 @@ export default function Home() {
   });
   const [bookingSuccess, setBookingSuccess] = useState(false);
 
-  // Cart store
   const { items, addItem, removeItem, clearCart, total } = useCartStore();
 
   const HOTLINE = '0908875245';
   const HOTLINE_DISPLAY = '0908.875.245';
   const ZALO_LINK = `https://zalo.me/${HOTLINE}`;
+  const ADDRESS = '1229 Bùi Văn Hòa, Long Bình, Đồng Nai, Vietnam';
+  const GOOGLE_MAPS_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ADDRESS)}`;
+  const MAPS_EMBED_SRC = `https://maps.google.com/maps?q=${encodeURIComponent(ADDRESS)}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % BANNER_SLIDES.length);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [BANNER_SLIDES.length]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -124,11 +162,23 @@ export default function Home() {
     ? PRODUCTS 
     : PRODUCTS.filter((p) => p.category === selectedFilter);
 
+  const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
+  const currentProducts = filteredProducts.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  const handleFilterChange = (cat: string) => {
+    setSelectedFilter(cat);
+    setCurrentPage(1);
+  };
+
   const categories = ['Tất cả', 'Truyền động', 'Phanh xe', 'Dầu nhớt', 'Vỏ xe', 'Hệ thống điện'];
   const totalCartCount = items.reduce((a, b) => a + b.quantity, 0);
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 pb-20 md:pb-0 relative">
+      {/* 1. SOS Notification Bar */}
       <div className="bg-gradient-to-r from-red-600 via-rose-600 to-red-700 text-white px-4 py-2 text-xs md:text-sm font-semibold shadow-md">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -150,26 +200,34 @@ export default function Home() {
         </div>
       </div>
 
+      {/* 2. Header */}
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 h-14 md:h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="bg-red-600 text-white p-1.5 md:p-2 rounded-lg">
-              <Wrench className="w-4 h-4 md:w-5 h-5" />
-            </div>
-            <div>
-              <span className="font-black text-lg md:text-xl tracking-tight text-slate-900 leading-none block">
-                SỬA XE <span className="text-red-600"> CHÍNH</span>
-              </span>
-              <span className="text-[9px] md:text-[10px] text-slate-500 uppercase tracking-wider block font-semibold">
-                Sửa Xe & Phụ Tùng
-              </span>
-            </div>
-          </div>
+         <a href="#" className="flex items-center gap-3 shrink-0 group">
+  {/* Thêm aspect-square và w-12 h-12 cố định để không bao giờ bị méo */}
+  <div className="w-12 h-12 md:w-13 md:h-13 aspect-square rounded-full border-2 border-red-600 bg-white p-1 flex items-center justify-center shrink-0 shadow-sm transition-transform duration-300 group-hover:scale-105">
+    <img 
+      src="/logo.png" 
+      alt="Logo Sửa Xe Chính" 
+      className="w-full h-full object-contain" 
+    />
+  </div>
+
+  <div className="flex flex-col justify-center">
+    <span className="font-black text-lg md:text-xl tracking-tight text-slate-900 leading-none">
+      SỬA XE <span className="text-red-600">CHÍNH</span>
+    </span>
+    <span className="text-[10px] md:text-[11px] text-slate-500 uppercase tracking-wider font-bold mt-1">
+      Uy Tín • Chuyên Nghiệp
+    </span>
+  </div>
+</a>
 
           <nav className="hidden md:flex items-center gap-8 font-medium text-sm text-slate-600">
             <a href="#dich-vu" className="hover:text-red-600 transition">Dịch Vụ</a>
             <a href="#phu-tung" className="hover:text-red-600 transition">Phụ Tùng</a>
             <a href="#dat-lich" className="hover:text-red-600 transition">Đặt Lịch Hẹn</a>
+            <a href="#vi-tri" className="hover:text-red-600 transition">Bản Đồ</a>
             <a href="#lien-he" className="hover:text-red-600 transition">Liên Hệ</a>
           </nav>
 
@@ -198,21 +256,41 @@ export default function Home() {
         </div>
       </header>
 
-      <section className="relative overflow-hidden bg-slate-950 text-white py-12 md:py-20">
-        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#ef4444_1px,transparent_1px)] [background-size:16px_16px]"></div>
-        <div className="max-w-7xl mx-auto px-4 relative z-10 grid md:grid-cols-2 gap-8 md:gap-10 items-center">
-          <div>
-            <div className="inline-flex items-center gap-2 bg-red-600/20 text-red-400 border border-red-500/30 px-3 py-1 rounded-full text-xs font-semibold uppercase mb-3 md:mb-4">
-              <ShieldCheck className="w-3.5 h-3.5" /> Thợ tay nghề cao - Phục vụ tận nơi
+      {/* 3. Hero Section (Auto Slider 3s) */}
+      <section className="relative overflow-hidden bg-slate-950 text-white min-h-[460px] md:min-h-[520px] flex items-center">
+        {BANNER_SLIDES.map((slide, idx) => (
+          <div
+            key={idx}
+            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+              currentSlide === idx ? 'opacity-65 scale-100' : 'opacity-0 scale-105 pointer-events-none'
+            }`}
+            style={{
+              backgroundImage: `url(${slide.image})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              transitionProperty: 'opacity, transform',
+              transitionDuration: '1000ms',
+            }}
+          />
+        ))}
+
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/70 to-slate-950/20 z-10" />
+
+        <div className="max-w-7xl mx-auto px-4 py-12 md:py-16 relative z-20 w-full grid md:grid-cols-12 gap-8 items-center">
+          <div className="md:col-span-7">
+            <div className="inline-flex items-center gap-2 bg-red-600/30 text-red-300 border border-red-500/40 px-3 py-1 rounded-full text-xs font-semibold uppercase mb-3 md:mb-4 backdrop-blur-sm">
+              <ShieldCheck className="w-3.5 h-3.5 text-red-400" /> {BANNER_SLIDES[currentSlide].badge}
             </div>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-3 md:mb-4">
-              Sửa Xe Máy & Phụ Tùng <span className="text-red-500">Chính Hãng</span>
+
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-3 md:mb-4 transition-all duration-500 drop-shadow-md">
+              {BANNER_SLIDES[currentSlide].title} <span className="text-red-500">{BANNER_SLIDES[currentSlide].highlight}</span>
             </h1>
-            <p className="text-slate-400 text-sm md:text-lg mb-6">
-              Đội phản ứng nhanh cứu hộ tận nơi khi gặp sự cố trên đường hoặc tại nhà. Báo đúng giá, phụ tùng chính hãng bảo hành dài hạn.
+
+            <p className="text-slate-200 text-sm md:text-base mb-6 max-w-xl line-clamp-3 drop-shadow">
+              {BANNER_SLIDES[currentSlide].desc}
             </p>
 
-            <div className="bg-red-950/60 border border-red-500/40 p-4 rounded-2xl mb-6 backdrop-blur-sm">
+            <div className="bg-slate-950/80 border border-red-500/50 p-4 rounded-2xl mb-6 backdrop-blur-md max-w-xl shadow-lg">
               <div className="flex items-center gap-2 text-red-400 font-bold text-xs uppercase mb-1">
                 <AlertTriangle className="w-4 h-4 text-red-400 animate-bounce" /> Bạn đang bị hỏng xe giữa đường?
               </div>
@@ -227,50 +305,64 @@ export default function Home() {
                   href={ZALO_LINK}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex-1 min-w-[140px] bg-blue-600 hover:bg-blue-700 text-white text-center py-2.5 px-4 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition"
+                  className="flex-1 min-w-[140px] bg-blue-600 hover:bg-blue-700 text-white text-center py-2.5 px-4 rounded-xl font-bold text-sm flex items-center justify-center gap-2 transition shadow-lg shadow-blue-600/30"
                 >
                   <Send className="w-4 h-4" /> Gửi Định Vị Zalo
                 </a>
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-3">
+            <div className="flex flex-wrap gap-3">
               <a 
                 href="#dat-lich" 
-                className="bg-white/10 hover:bg-white/20 border border-white/20 text-white px-5 py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 text-sm md:text-base"
+                className="bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/30 text-white px-5 py-2.5 rounded-xl font-bold transition flex items-center justify-center gap-2 text-sm shadow"
               >
                 <Calendar className="w-4 h-4" /> Đặt Lịch Bảo Dưỡng
               </a>
               <a 
-                href="#phu-tung" 
-                className="bg-transparent hover:text-red-400 text-slate-300 px-5 py-3 rounded-xl font-medium transition flex items-center justify-center gap-2 text-sm md:text-base"
+                href="#vi-tri" 
+                className="bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/30 text-white px-5 py-2.5 rounded-xl font-bold transition flex items-center justify-center gap-2 text-sm shadow"
               >
-                Xem Kho Phụ Tùng <ChevronRight className="w-4 h-4" />
+                <MapPin className="w-4 h-4 text-red-400" /> Chỉ Đường Đến Tiệm
               </a>
+            </div>
+
+            <div className="flex items-center gap-2 mt-6">
+              {BANNER_SLIDES.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentSlide(idx)}
+                  aria-label={`Chuyển tới slide ${idx + 1}`}
+                  className={`h-2 rounded-full transition-all duration-300 ${
+                    currentSlide === idx ? 'w-8 bg-red-600 shadow-md shadow-red-600/50' : 'w-2 bg-slate-400/60 hover:bg-white'
+                  }`}
+                />
+              ))}
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 md:gap-4">
-            <div className="bg-slate-900/90 border border-slate-800 p-4 md:p-5 rounded-2xl text-center md:text-left">
-              <div className="text-red-500 font-extrabold text-2xl md:text-3xl mb-0.5">15 Phút</div>
-              <div className="text-slate-400 text-xs md:text-sm font-medium">Tốc độ cứu hộ nội thành</div>
+          <div className="md:col-span-5 grid grid-cols-2 gap-3">
+            <div className="bg-slate-950/75 backdrop-blur-md border border-white/10 p-4 rounded-2xl shadow-lg">
+              <div className="text-red-500 font-extrabold text-2xl mb-0.5">15 Phút</div>
+              <div className="text-slate-300 text-xs leading-relaxed">Cứu hộ nhanh Biên Hòa (Long Bình, Tam Phước, Cổng 11...)</div>
             </div>
-            <div className="bg-slate-900/90 border border-slate-800 p-4 md:p-5 rounded-2xl text-center md:text-left">
-              <div className="text-red-500 font-extrabold text-2xl md:text-3xl mb-0.5">24/7</div>
-              <div className="text-slate-400 text-xs md:text-sm font-medium">Túc trực ngày & đêm</div>
+            <div className="bg-slate-950/75 backdrop-blur-md border border-white/10 p-4 rounded-2xl shadow-lg">
+              <div className="text-red-500 font-extrabold text-2xl mb-0.5">24/7</div>
+              <div className="text-slate-300 text-xs leading-relaxed">Túc trực ngày & đêm không nghỉ</div>
             </div>
-            <div className="bg-slate-900/90 border border-slate-800 p-4 md:p-5 rounded-2xl text-center md:text-left">
-              <div className="text-red-500 font-extrabold text-2xl md:text-3xl mb-0.5">100%</div>
-              <div className="text-slate-400 text-xs md:text-sm font-medium">Phụ tùng chính hãng</div>
+            <div className="bg-slate-950/75 backdrop-blur-md border border-white/10 p-4 rounded-2xl shadow-lg">
+              <div className="text-red-500 font-extrabold text-2xl mb-0.5">100%</div>
+              <div className="text-slate-300 text-xs leading-relaxed">Phụ tùng xuất xứ chính hãng</div>
             </div>
-            <div className="bg-slate-900/90 border border-slate-800 p-4 md:p-5 rounded-2xl text-center md:text-left">
-              <div className="text-red-500 font-extrabold text-2xl md:text-3xl mb-0.5">6 Tháng</div>
-              <div className="text-slate-400 text-xs md:text-sm font-medium">Bảo hành linh kiện</div>
+            <div className="bg-slate-950/75 backdrop-blur-md border border-white/10 p-4 rounded-2xl shadow-lg">
+              <div className="text-red-500 font-extrabold text-2xl mb-0.5">6 Tháng</div>
+              <div className="text-slate-300 text-xs leading-relaxed">Bảo hành linh kiện thay thế</div>
             </div>
           </div>
         </div>
       </section>
 
+      {/* 4. Dịch Vụ */}
       <section id="dich-vu" className="py-12 md:py-16 max-w-7xl mx-auto px-4">
         <div className="text-center max-w-2xl mx-auto mb-8 md:mb-12">
           <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900">Dịch Vụ Sửa Chữa & Bảo Dưỡng</h2>
@@ -298,7 +390,8 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="phu-tung" className="py-12 md:py-16 bg-slate-100">
+      {/* 5. Phụ Tùng */}
+      <section id="phu-tung" className="py-12 md:py-16 bg-slate-100 scroll-mt-12">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 md:mb-8 gap-3">
             <div>
@@ -310,7 +403,7 @@ export default function Home() {
               {categories.map((cat) => (
                 <button
                   key={cat}
-                  onClick={() => setSelectedFilter(cat)}
+                  onClick={() => handleFilterChange(cat)}
                   className={`px-3.5 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition flex-shrink-0 ${
                     selectedFilter === cat
                       ? 'bg-slate-900 text-white shadow'
@@ -324,7 +417,7 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
-            {filteredProducts.map((prod) => (
+            {currentProducts.map((prod) => (
               <div key={prod.id} className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col">
                 <div className="h-36 sm:h-44 w-full bg-slate-200 relative overflow-hidden">
                   <img src={prod.image} alt={prod.name} className="w-full h-full object-cover" />
@@ -356,9 +449,46 @@ export default function Home() {
               </div>
             ))}
           </div>
+
+          {totalPages > 1 && (
+            <div className="mt-8 flex items-center justify-center gap-2">
+              <button
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+                className="px-3 py-1.5 rounded-xl border border-slate-300 bg-white text-xs font-bold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-50 transition"
+              >
+                Trước
+              </button>
+
+              <div className="flex items-center gap-1">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                  <button
+                    key={page}
+                    onClick={() => setCurrentPage(page)}
+                    className={`w-8 h-8 rounded-xl text-xs font-bold transition flex items-center justify-center ${
+                      currentPage === page
+                        ? 'bg-red-600 text-white shadow-md shadow-red-600/20'
+                        : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
+                    }`}
+                  >
+                    {page}
+                  </button>
+                ))}
+              </div>
+
+              <button
+                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                disabled={currentPage === totalPages}
+                className="px-3 py-1.5 rounded-xl border border-slate-300 bg-white text-xs font-bold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-50 transition"
+              >
+                Sau
+              </button>
+            </div>
+          )}
         </div>
       </section>
 
+      {/* 6. Form Đặt Lịch Hẹn */}
       <section id="dat-lich" className="py-12 md:py-16 max-w-3xl mx-auto px-4">
         <div className="bg-white border border-slate-200 rounded-3xl p-5 md:p-8 shadow-sm">
           <div className="text-center mb-6 md:mb-8">
@@ -461,6 +591,78 @@ export default function Home() {
         </div>
       </section>
 
+      {/* 7. Google Maps */}
+      <section id="vi-tri" className="py-12 md:py-16 bg-slate-100 border-t border-slate-200">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center max-w-2xl mx-auto mb-8">
+            <span className="text-red-600 font-bold text-xs uppercase tracking-wider bg-red-50 border border-red-200 px-3 py-1 rounded-full inline-block mb-2">
+              Vị Trí Cửa Hàng
+            </span>
+            <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900">Tìm Đường Đến Sửa Xe Chính</h2>
+            <p className="text-slate-500 text-xs md:text-sm mt-1">Nằm ngay mặt tiền đường Bùi Văn Hòa, gần KCN Biên Hòa 2 và vòng xoay Cổng 11</p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 bg-white p-4 md:p-6 rounded-3xl border border-slate-200 shadow-sm">
+            <div className="lg:col-span-1 flex flex-col justify-between space-y-6">
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <div className="bg-red-50 text-red-600 p-2.5 rounded-xl shrink-0 mt-0.5">
+                    <MapPin className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-sm text-slate-900 mb-0.5">Địa Chỉ Trực Tiếp</h4>
+                    <p className="text-xs text-slate-600 leading-relaxed">{ADDRESS}</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <div className="bg-emerald-50 text-emerald-600 p-2.5 rounded-xl shrink-0 mt-0.5">
+                    <Clock className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-sm text-slate-900 mb-0.5">Giờ Mở Cửa</h4>
+                    <p className="text-xs text-slate-600">07:30 - 19:30 (Thứ 2 - Chủ Nhật)</p>
+                    <p className="text-[11px] text-emerald-600 font-semibold mt-0.5">Cứu hộ khẩn cấp phục vụ 24/7</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <div className="bg-blue-50 text-blue-600 p-2.5 rounded-xl shrink-0 mt-0.5">
+                    <PhoneCall className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-sm text-slate-900 mb-0.5">Hỗ Trợ & Chỉ Đường</h4>
+                    <p className="text-xs text-slate-600">Hotline: <strong className="text-slate-900">{HOTLINE_DISPLAY}</strong></p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-2">
+                <a
+                  href={GOOGLE_MAPS_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-full bg-slate-900 hover:bg-red-600 text-white font-bold py-3 px-4 rounded-xl transition flex items-center justify-center gap-2 text-xs md:text-sm shadow-md"
+                >
+                  <Navigation className="w-4 h-4" /> Mở Bằng Google Maps (Dẫn Đường)
+                </a>
+              </div>
+            </div>
+
+            <div className="lg:col-span-2 h-72 md:h-96 rounded-2xl overflow-hidden border border-slate-200 relative bg-slate-100">
+              <iframe
+                title="Bản đồ Sửa xe Chính"
+                src={MAPS_EMBED_SRC}
+                className="w-full h-full border-0"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              ></iframe>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 8. Giỏ Hàng Drawer */}
       {isCartOpen && (
         <div className="fixed inset-0 z-50 flex justify-end bg-black/50 backdrop-blur-sm animate-in fade-in">
           <div className="w-full max-w-md bg-white h-full flex flex-col shadow-2xl p-5 md:p-6">
@@ -519,6 +721,7 @@ export default function Home() {
         </div>
       )}
 
+      {/* 9. VietQR Modal */}
       {isCheckoutOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
           <div className="bg-white rounded-3xl p-5 md:p-6 max-w-sm w-full text-center relative shadow-2xl">
@@ -531,7 +734,7 @@ export default function Home() {
 
             <div className="bg-slate-50 p-3 rounded-2xl border border-slate-200 mb-3 inline-block">
               <img
-                src={`https://api.vietqr.io/image/970422-${HOTLINE}-f5Yg2Z0.jpg?accountName=TIEM%20SUA%20XE%20MOTOPRO&amount=${total()}&addInfo=DonHangPhuTung`}
+                src={`https://api.vietqr.io/image/970422-${HOTLINE}-f5Yg2Z0.jpg?accountName=TIEM%20SUA%20XE%20CHINH&amount=${total()}&addInfo=DonHangPhuTung`}
                 alt="Mã VietQR"
                 className="w-48 h-48 sm:w-52 sm:h-52 mx-auto object-contain"
               />
@@ -556,22 +759,36 @@ export default function Home() {
         </div>
       )}
 
+      {/* 10. Footer */}
       <footer id="lien-he" className="bg-slate-950 text-slate-400 py-10 border-t border-slate-900 text-sm">
         <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           <div>
-            <div className="flex items-center gap-2 text-white font-bold text-base md:text-lg mb-2">
-              <Wrench className="w-5 h-5 text-red-600" /> SỬA XE CHÍNH
+            <div className="flex items-center gap-2.5 text-white font-bold text-base md:text-lg mb-2">
+              <img 
+                src="/logo.png" 
+                alt="Logo Sửa Xe Chính" 
+                className="w-8 h-8 object-contain drop-shadow" 
+              />
+              <span>SỬA XE CHÍNH</span>
             </div>
             <p className="text-xs leading-relaxed text-slate-400">
-              Trạm dịch vụ kỹ thuật sửa xe máy uy tín, phân phối linh kiện phụ tùng chính hãng và cứu hộ khẩn cấp 24/7.
+              Trạm dịch vụ kỹ thuật sửa xe máy uy tín, phân phối linh kiện phụ tùng chính hãng và cứu hộ khẩn cấp 24/7 khu vực Biên Hòa.
             </p>
           </div>
 
           <div>
             <h4 className="text-white font-bold text-xs md:text-sm mb-2 uppercase">Địa Chỉ & Giờ Làm Việc</h4>
             <div className="space-y-1.5 text-xs">
-              <p className="flex items-center gap-2"><MapPin className="w-4 h-4 text-red-600 shrink-0" /> 1229 Bùi Văn Hòa, Long Bình, Đồng Nai, Vietnam</p>
-              <p className="flex items-center gap-2"><Clock className="w-4 h-4 text-red-600 shrink-0" /> 07:30 - 19:30 (Cả Thứ 7 & Chủ Nhật)</p>
+              <a 
+                href={GOOGLE_MAPS_URL} 
+                target="_blank" 
+                rel="noreferrer"
+                className="flex items-start gap-2 hover:text-white transition group"
+              >
+                <MapPin className="w-4 h-4 text-red-600 shrink-0 mt-0.5 group-hover:scale-110 transition" /> 
+                <span>{ADDRESS} <span className="text-red-400 underline block text-[11px] mt-0.5">Bấm xem trên Google Maps →</span></span>
+              </a>
+              <p className="flex items-center gap-2 pt-1"><Clock className="w-4 h-4 text-red-600 shrink-0" /> 07:30 - 19:30 (Cả Thứ 7 & Chủ Nhật)</p>
             </div>
           </div>
 
@@ -588,20 +805,21 @@ export default function Home() {
         </div>
       </footer>
 
-      <div className="fixed bottom-24 md:bottom-8 right-4 z-40 flex flex-col items-end gap-3">
+      {/* 11. Quick Contact Float (Left) */}
+      <div className="fixed bottom-24 md:bottom-8 left-4 z-40 flex flex-col items-start gap-3">
         <a 
           href={ZALO_LINK} 
           target="_blank" 
           rel="noreferrer"
           aria-label="Nhắn tin Zalo"
-          className="group flex items-center bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition shadow-blue-600/30"
+          className="group flex items-center bg-[#0068FF] text-white p-2.5 rounded-full shadow-lg hover:bg-[#0054cc] transition shadow-blue-500/30"
         >
+          <span className="w-8 h-8 rounded-full bg-white text-[#0068FF] font-black text-[11px] tracking-tight flex items-center justify-center shadow-inner">
+            Zalo
+          </span>
           <span className="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs transition-all duration-300 ease-in-out text-xs font-bold px-0 group-hover:px-2">
             Chat Zalo
           </span>
-          <div className="w-6 h-6 flex items-center justify-center font-black text-[13px] bg-white text-blue-600 rounded-full">
-            Z
-          </div>
         </a>
 
         <a 
@@ -610,23 +828,27 @@ export default function Home() {
           className="group flex items-center bg-red-600 text-white p-3 rounded-full shadow-xl hover:bg-red-700 transition shadow-red-600/40 relative"
         >
           <span className="absolute -inset-1 rounded-full bg-red-500 opacity-50 animate-ping -z-10"></span>
+          <PhoneCall className="w-6 h-6 animate-pulse" />
           <span className="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs transition-all duration-300 ease-in-out text-xs font-bold px-0 group-hover:px-2">
             Gọi {HOTLINE_DISPLAY}
           </span>
-          <PhoneCall className="w-6 h-6 animate-pulse" />
         </a>
+      </div>
 
-        {showBackToTop && (
+      {/* 12. Back To Top (Right) */}
+      {showBackToTop && (
+        <div className="fixed bottom-24 md:bottom-8 right-4 z-40">
           <button
             onClick={scrollToTop}
             aria-label="Cuộn lên đầu trang"
-            className="bg-slate-800/80 hover:bg-slate-950 backdrop-blur-sm text-white p-2.5 rounded-full shadow-md transition hover:-translate-y-0.5"
+            className="bg-slate-800/80 hover:bg-slate-950 backdrop-blur-sm text-white p-3 rounded-full shadow-md transition hover:-translate-y-0.5 flex items-center justify-center"
           >
             <ArrowUp className="w-5 h-5" />
           </button>
-        )}
-      </div>
+        </div>
+      )}
 
+      {/* 13. Mobile Bottom Navigation */}
       <nav className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 py-2 px-6 flex justify-between items-center md:hidden">
         <a href="#" className="flex flex-col items-center gap-0.5 text-slate-600 hover:text-red-600">
           <HomeIcon className="w-5 h-5" />
