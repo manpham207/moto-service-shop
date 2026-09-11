@@ -1,31 +1,31 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import { 
-  Wrench, 
-  ShoppingCart, 
-  PhoneCall, 
-  Clock, 
-  CheckCircle2, 
-  Calendar, 
-  X, 
-  Trash2, 
-  QrCode, 
-  MapPin, 
-  ShieldCheck, 
-  ChevronRight, 
-  Package, 
-  Home as HomeIcon, 
-  ArrowUp, 
+import React, { useState, useEffect } from "react";
+import {
+  Wrench,
+  ShoppingCart,
+  PhoneCall,
+  Clock,
+  CheckCircle2,
+  Calendar,
+  X,
+  Trash2,
+  QrCode,
+  MapPin,
+  ShieldCheck,
+  ChevronRight,
+  Package,
+  Home as HomeIcon,
+  ArrowUp,
   AlertTriangle,
   Send,
-  Navigation
-} from 'lucide-react';
-import { SERVICES, PRODUCTS } from '@/data/mockData';
-import { useCartStore } from '@/lib/cartStore';
+  Navigation,
+} from "lucide-react";
+import { SERVICES, PRODUCTS } from "@/data/mockData";
+import { useCartStore } from "@/lib/cartStore";
 
 export default function Home() {
-  const [selectedFilter, setSelectedFilter] = useState('Tất cả');
+  const [selectedFilter, setSelectedFilter] = useState("Tất cả");
   const [currentPage, setCurrentPage] = useState(1);
   const ITEMS_PER_PAGE = 4;
 
@@ -38,45 +38,48 @@ export default function Home() {
 
   const BANNER_SLIDES = [
     {
-      badge: 'Thợ tay nghề cao - Phục vụ tận nơi',
-      title: 'Sửa Xe Máy & Phụ Tùng',
-      highlight: 'Chính Hãng',
-      desc: 'Đội phản ứng nhanh cứu hộ tận nơi khi gặp sự cố trên đường hoặc tại nhà. Báo đúng giá, phụ tùng chính hãng bảo hành dài hạn.',
-      image: 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1200&q=80',
+      badge: "Thợ tay nghề cao - Phục vụ tận nơi",
+      title: "Sửa Xe Máy & Phụ Tùng",
+      highlight: "Chính Hãng",
+      desc: "Đội phản ứng nhanh cứu hộ tận nơi khi gặp sự cố trên đường hoặc tại nhà. Báo đúng giá, phụ tùng chính hãng bảo hành dài hạn.",
+      image:
+        "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1200&q=80",
     },
     {
-      badge: 'Cứu hộ khẩn cấp 24/7',
-      title: 'Cứu Hộ Chết Máy - Thủng Lốp',
-      highlight: 'Tận Nơi 15 Phút',
-      desc: 'Hỗ trợ vá vỏ lưu động, kích sạc bình ắc quy, xử lý xe chết máy ngập nước thần tốc khu vực Long Bình, Tam Phước, Vòng xoay Cổng 11.',
-      image: 'https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=1200&q=80',
+      badge: "Cứu hộ khẩn cấp 24/7",
+      title: "Cứu Hộ Chết Máy - Thủng Lốp",
+      highlight: "Tận Nơi 15 Phút",
+      desc: "Hỗ trợ vá vỏ lưu động, kích sạc bình ắc quy, xử lý xe chết máy ngập nước thần tốc khu vực Long Bình, Tam Phước, Vòng xoay Cổng 11.",
+      image:
+        "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=1200&q=80",
     },
     {
-      badge: 'Bảo dưỡng tiêu chuẩn',
-      title: 'Bảo Dưỡng Toàn Diện Xe Tay Ga',
-      highlight: 'Êm Ái Tiết Kiệm Xăng',
-      desc: 'Vệ sinh kim phun, buồng đốt, làm nồi, thay nhớt cao cấp giúp xe vận hành mượt mà và bền bỉ như xe mới.',
-      image: 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=1200&q=80',
+      badge: "Bảo dưỡng tiêu chuẩn",
+      title: "Bảo Dưỡng Toàn Diện Xe Tay Ga",
+      highlight: "Êm Ái Tiết Kiệm Xăng",
+      desc: "Vệ sinh kim phun, buồng đốt, làm nồi, thay nhớt cao cấp giúp xe vận hành mượt mà và bền bỉ như xe mới.",
+      image:
+        "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=1200&q=80",
     },
   ];
 
   const [booking, setBooking] = useState({
-    name: '',
-    phone: '',
-    bikeModel: '',
-    service: 'Bảo Dưỡng Toàn Diện 10 Bước',
-    date: '',
-    note: ''
+    name: "",
+    phone: "",
+    bikeModel: "",
+    service: "Bảo Dưỡng Toàn Diện 10 Bước",
+    date: "",
+    note: "",
   });
   const [bookingSuccess, setBookingSuccess] = useState(false);
 
   const { items, addItem, removeItem, clearCart, total } = useCartStore();
 
-  const HOTLINE = '0908875245';
-  const HOTLINE_DISPLAY = '0908.875.245';
+  const HOTLINE = "0908875245";
+  const HOTLINE_DISPLAY = "0908.875.245";
   const ZALO_LINK = `https://zalo.me/${HOTLINE}`;
-  const ADDRESS = '1229 Bùi Văn Hòa, Long Bình, Đồng Nai, Vietnam';
-  const GOOGLE_MAPS_URL = 'https://maps.app.goo.gl/rqXyv2N3NM5HzuwN9';
+  const ADDRESS = "1229 Bùi Văn Hòa, Long Bình, Đồng Nai, Vietnam";
+  const GOOGLE_MAPS_URL = "https://maps.app.goo.gl/rqXyv2N3NM5HzuwN9";
   const MAPS_EMBED_SRC = `https://maps.google.com/maps?q=${encodeURIComponent(ADDRESS)}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
 
   useEffect(() => {
@@ -94,19 +97,19 @@ export default function Home() {
         setShowBackToTop(false);
       }
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleSelectService = (serviceTitle: string) => {
     setBooking((prev) => ({ ...prev, service: serviceTitle }));
-    const bookingSection = document.getElementById('dat-lich');
+    const bookingSection = document.getElementById("dat-lich");
     if (bookingSection) {
-      bookingSection.scrollIntoView({ behavior: 'smooth' });
+      bookingSection.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -115,7 +118,9 @@ export default function Home() {
 
     const phoneRegex = /(0[3|5|7|8|9])+([0-9]{8})\b/;
     if (!phoneRegex.test(booking.phone.trim())) {
-      alert("Vui lòng nhập đúng định dạng số điện thoại 10 số (ví dụ: 0908xxxxxx)!");
+      alert(
+        "Vui lòng nhập đúng định dạng số điện thoại 10 số (ví dụ: 0908xxxxxx)!",
+      );
       return;
     }
 
@@ -123,7 +128,7 @@ export default function Home() {
     if (booking.date) {
       try {
         const d = new Date(booking.date);
-        formattedDate = `${d.getHours()}h${d.getMinutes().toString().padStart(2, '0')} ngày ${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
+        formattedDate = `${d.getHours()}h${d.getMinutes().toString().padStart(2, "0")} ngày ${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
       } catch {
         formattedDate = booking.date;
       }
@@ -132,9 +137,9 @@ export default function Home() {
     setIsSubmitting(true);
 
     try {
-      const res = await fetch('/api/booking', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/booking", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: booking.name.trim(),
           phone: booking.phone.trim(),
@@ -148,32 +153,36 @@ export default function Home() {
       if (res.ok) {
         setBookingSuccess(true);
         setBooking({
-          name: '',
-          phone: '',
-          bikeModel: '',
-          service: 'Bảo Dưỡng Toàn Diện 10 Bước',
-          date: '',
-          note: ''
+          name: "",
+          phone: "",
+          bikeModel: "",
+          service: "Bảo Dưỡng Toàn Diện 10 Bước",
+          date: "",
+          note: "",
         });
         setTimeout(() => setBookingSuccess(false), 6000);
       } else {
-        alert('Có lỗi xảy ra khi gửi. Vui lòng liên hệ trực tiếp hotline: ' + HOTLINE_DISPLAY);
+        alert(
+          "Có lỗi xảy ra khi gửi. Vui lòng liên hệ trực tiếp hotline: " +
+            HOTLINE_DISPLAY,
+        );
       }
     } catch {
-      alert('Không thể kết nối. Vui lòng kiểm tra lại mạng hoặc gọi hotline!');
+      alert("Không thể kết nối. Vui lòng kiểm tra lại mạng hoặc gọi hotline!");
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const filteredProducts = selectedFilter === 'Tất cả' 
-    ? PRODUCTS 
-    : PRODUCTS.filter((p) => p.category === selectedFilter);
+  const filteredProducts =
+    selectedFilter === "Tất cả"
+      ? PRODUCTS
+      : PRODUCTS.filter((p) => p.category === selectedFilter);
 
   const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
   const currentProducts = filteredProducts.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
+    currentPage * ITEMS_PER_PAGE,
   );
 
   const handleFilterChange = (cat: string) => {
@@ -181,7 +190,14 @@ export default function Home() {
     setCurrentPage(1);
   };
 
-  const categories = ['Tất cả', 'Truyền động', 'Phanh xe', 'Dầu nhớt', 'Vỏ xe', 'Hệ thống điện'];
+  const categories = [
+    "Tất cả",
+    "Truyền động",
+    "Phanh xe",
+    "Dầu nhớt",
+    "Vỏ xe",
+    "Hệ thống điện",
+  ];
   const totalCartCount = items.reduce((a, b) => a + b.quantity, 0);
 
   return (
@@ -195,10 +211,11 @@ export default function Home() {
             </span>
             <span className="flex items-center gap-1.5">
               <AlertTriangle className="w-4 h-4 text-yellow-300 shrink-0" />
-              <strong>CỨU HỘ KHẨN CẤP 24/7:</strong> Thủng lốp, hết bình, chết máy có mặt sau 15 phút!
+              <strong>CỨU HỘ KHẨN CẤP 24/7:</strong> Thủng lốp, hết bình, chết
+              máy có mặt sau 15 phút!
             </span>
           </div>
-          <a 
+          <a
             href={`tel:${HOTLINE}`}
             className="bg-yellow-400 hover:bg-yellow-300 text-slate-950 px-3 py-1 rounded-full font-black text-xs flex items-center gap-1 transition shadow shrink-0 ml-2"
           >
@@ -211,10 +228,10 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 h-16 md:h-18 flex items-center justify-between">
           <a href="#" className="flex items-center gap-3 shrink-0 group">
             <div className="w-12 h-12 md:w-13 md:h-13 aspect-square rounded-full border-2 border-red-600 bg-white p-1 flex items-center justify-center shrink-0 shadow-sm transition-transform duration-300 group-hover:scale-105">
-              <img 
-                src="/logo.png" 
-                alt="Logo Sửa Xe Chính" 
-                className="w-full h-full object-contain" 
+              <img
+                src="/logo.png"
+                alt="Logo Sửa Xe Chính"
+                className="w-full h-full object-contain"
               />
             </div>
 
@@ -229,23 +246,33 @@ export default function Home() {
           </a>
 
           <nav className="hidden md:flex items-center gap-8 font-medium text-sm text-slate-600">
-            <a href="#dich-vu" className="hover:text-red-600 transition">Dịch Vụ</a>
-            <a href="#phu-tung" className="hover:text-red-600 transition">Phụ Tùng</a>
-            <a href="#dat-lich" className="hover:text-red-600 transition">Đặt Lịch Hẹn</a>
-            <a href="#vi-tri" className="hover:text-red-600 transition">Bản Đồ</a>
-            <a href="#lien-he" className="hover:text-red-600 transition">Liên Hệ</a>
+            <a href="#dich-vu" className="hover:text-red-600 transition">
+              Dịch Vụ
+            </a>
+            <a href="#phu-tung" className="hover:text-red-600 transition">
+              Phụ Tùng
+            </a>
+            <a href="#dat-lich" className="hover:text-red-600 transition">
+              Đặt Lịch Hẹn
+            </a>
+            <a href="#vi-tri" className="hover:text-red-600 transition">
+              Bản Đồ
+            </a>
+            <a href="#lien-he" className="hover:text-red-600 transition">
+              Liên Hệ
+            </a>
           </nav>
 
           <div className="flex items-center gap-3">
-            <a 
-              href={`tel:${HOTLINE}`} 
+            <a
+              href={`tel:${HOTLINE}`}
               className="hidden md:flex items-center gap-1.5 text-xs bg-red-50 text-red-700 px-3 py-2 rounded-full font-bold border border-red-100 hover:bg-red-100 transition shadow-sm"
             >
               <PhoneCall className="w-3.5 h-3.5 text-red-600 animate-pulse" />
               <span>Hotline: {HOTLINE_DISPLAY}</span>
             </a>
 
-            <button 
+            <button
               onClick={() => setIsCartOpen(true)}
               aria-label="Xem giỏ hàng"
               className="relative p-2 rounded-full bg-slate-100 hover:bg-slate-200 transition"
@@ -266,14 +293,16 @@ export default function Home() {
           <div
             key={idx}
             className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-              currentSlide === idx ? 'opacity-65 scale-100' : 'opacity-0 scale-105 pointer-events-none'
+              currentSlide === idx
+                ? "opacity-65 scale-100"
+                : "opacity-0 scale-105 pointer-events-none"
             }`}
             style={{
               backgroundImage: `url(${slide.image})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              transitionProperty: 'opacity, transform',
-              transitionDuration: '1000ms',
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              transitionProperty: "opacity, transform",
+              transitionDuration: "1000ms",
             }}
           />
         ))}
@@ -283,11 +312,15 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 py-12 md:py-16 relative z-20 w-full grid md:grid-cols-12 gap-8 items-center">
           <div className="md:col-span-7">
             <div className="inline-flex items-center gap-2 bg-red-600/30 text-red-300 border border-red-500/40 px-3 py-1 rounded-full text-xs font-semibold uppercase mb-3 md:mb-4 backdrop-blur-sm">
-              <ShieldCheck className="w-3.5 h-3.5 text-red-400" /> {BANNER_SLIDES[currentSlide].badge}
+              <ShieldCheck className="w-3.5 h-3.5 text-red-400" />{" "}
+              {BANNER_SLIDES[currentSlide].badge}
             </div>
 
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-3 md:mb-4 transition-all duration-500 drop-shadow-md">
-              {BANNER_SLIDES[currentSlide].title} <span className="text-red-500">{BANNER_SLIDES[currentSlide].highlight}</span>
+              {BANNER_SLIDES[currentSlide].title}{" "}
+              <span className="text-red-500">
+                {BANNER_SLIDES[currentSlide].highlight}
+              </span>
             </h1>
 
             <p className="text-slate-200 text-sm md:text-base mb-6 max-w-xl line-clamp-3 drop-shadow">
@@ -296,16 +329,18 @@ export default function Home() {
 
             <div className="bg-slate-950/80 border border-red-500/50 p-4 rounded-2xl mb-6 backdrop-blur-md max-w-xl shadow-lg">
               <div className="flex items-center gap-2 text-red-400 font-bold text-xs uppercase mb-1">
-                <AlertTriangle className="w-4 h-4 text-red-400 animate-bounce" /> Bạn đang bị hỏng xe giữa đường?
+                <AlertTriangle className="w-4 h-4 text-red-400 animate-bounce" />{" "}
+                Bạn đang bị hỏng xe giữa đường?
               </div>
               <div className="flex flex-wrap gap-2.5 mt-2">
-                <a 
+                <a
                   href={`tel:${HOTLINE}`}
                   className="flex-1 min-w-[140px] bg-red-600 hover:bg-red-700 text-white text-center py-2.5 px-4 rounded-xl font-black text-sm flex items-center justify-center gap-2 shadow-lg shadow-red-600/40 transition"
                 >
-                  <PhoneCall className="w-4 h-4 animate-pulse" /> GỌI {HOTLINE_DISPLAY}
+                  <PhoneCall className="w-4 h-4 animate-pulse" /> GỌI{" "}
+                  {HOTLINE_DISPLAY}
                 </a>
-                <a 
+                <a
                   href={ZALO_LINK}
                   target="_blank"
                   rel="noreferrer"
@@ -317,14 +352,14 @@ export default function Home() {
             </div>
 
             <div className="flex flex-wrap gap-3">
-              <a 
-                href="#dat-lich" 
+              <a
+                href="#dat-lich"
                 className="bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/30 text-white px-5 py-2.5 rounded-xl font-bold transition flex items-center justify-center gap-2 text-sm shadow"
               >
                 <Calendar className="w-4 h-4" /> Đặt Lịch Bảo Dưỡng
               </a>
-              <a 
-                href="#vi-tri" 
+              <a
+                href="#vi-tri"
                 className="bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/30 text-white px-5 py-2.5 rounded-xl font-bold transition flex items-center justify-center gap-2 text-sm shadow"
               >
                 <MapPin className="w-4 h-4 text-red-400" /> Chỉ Đường Đến Tiệm
@@ -338,7 +373,9 @@ export default function Home() {
                   onClick={() => setCurrentSlide(idx)}
                   aria-label={`Chuyển tới slide ${idx + 1}`}
                   className={`h-2 rounded-full transition-all duration-300 ${
-                    currentSlide === idx ? 'w-8 bg-red-600 shadow-md shadow-red-600/50' : 'w-2 bg-slate-400/60 hover:bg-white'
+                    currentSlide === idx
+                      ? "w-8 bg-red-600 shadow-md shadow-red-600/50"
+                      : "w-2 bg-slate-400/60 hover:bg-white"
                   }`}
                 />
               ))}
@@ -347,20 +384,36 @@ export default function Home() {
 
           <div className="md:col-span-5 grid grid-cols-2 gap-3">
             <div className="bg-slate-950/75 backdrop-blur-md border border-white/10 p-4 rounded-2xl shadow-lg">
-              <div className="text-red-500 font-extrabold text-2xl mb-0.5">15 Phút</div>
-              <div className="text-slate-300 text-xs leading-relaxed">Cứu hộ nhanh Biên Hòa (Long Bình, Tam Phước, Cổng 11...)</div>
+              <div className="text-red-500 font-extrabold text-2xl mb-0.5">
+                15 Phút
+              </div>
+              <div className="text-slate-300 text-xs leading-relaxed">
+                Cứu hộ nhanh Biên Hòa (Long Bình, Tam Phước, Cổng 11...)
+              </div>
             </div>
             <div className="bg-slate-950/75 backdrop-blur-md border border-white/10 p-4 rounded-2xl shadow-lg">
-              <div className="text-red-500 font-extrabold text-2xl mb-0.5">24/7</div>
-              <div className="text-slate-300 text-xs leading-relaxed">Túc trực ngày & đêm không nghỉ</div>
+              <div className="text-red-500 font-extrabold text-2xl mb-0.5">
+                24/7
+              </div>
+              <div className="text-slate-300 text-xs leading-relaxed">
+                Túc trực ngày & đêm không nghỉ
+              </div>
             </div>
             <div className="bg-slate-950/75 backdrop-blur-md border border-white/10 p-4 rounded-2xl shadow-lg">
-              <div className="text-red-500 font-extrabold text-2xl mb-0.5">100%</div>
-              <div className="text-slate-300 text-xs leading-relaxed">Phụ tùng xuất xứ chính hãng</div>
+              <div className="text-red-500 font-extrabold text-2xl mb-0.5">
+                100%
+              </div>
+              <div className="text-slate-300 text-xs leading-relaxed">
+                Phụ tùng xuất xứ chính hãng
+              </div>
             </div>
             <div className="bg-slate-950/75 backdrop-blur-md border border-white/10 p-4 rounded-2xl shadow-lg">
-              <div className="text-red-500 font-extrabold text-2xl mb-0.5">6 Tháng</div>
-              <div className="text-slate-300 text-xs leading-relaxed">Bảo hành linh kiện thay thế</div>
+              <div className="text-red-500 font-extrabold text-2xl mb-0.5">
+                6 Tháng
+              </div>
+              <div className="text-slate-300 text-xs leading-relaxed">
+                Bảo hành linh kiện thay thế
+              </div>
             </div>
           </div>
         </div>
@@ -368,22 +421,35 @@ export default function Home() {
 
       <section id="dich-vu" className="py-12 md:py-16 max-w-7xl mx-auto px-4">
         <div className="text-center max-w-2xl mx-auto mb-8 md:mb-12">
-          <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900">Dịch Vụ Sửa Chữa & Bảo Dưỡng</h2>
-          <p className="text-slate-500 text-xs md:text-sm mt-1">Báo giá trước, công khai chi phí, không lo chặt chém</p>
+          <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900">
+            Dịch Vụ Sửa Chữa & Bảo Dưỡng
+          </h2>
+          <p className="text-slate-500 text-xs md:text-sm mt-1">
+            Báo giá trước, công khai chi phí, không lo chặt chém
+          </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
           {SERVICES.map((srv) => (
-            <div key={srv.id} className="bg-white border border-slate-200 rounded-2xl p-5 md:p-6 shadow-sm hover:shadow-md transition flex flex-col justify-between">
+            <div
+              key={srv.id}
+              className="bg-white border border-slate-200 rounded-2xl p-5 md:p-6 shadow-sm hover:shadow-md transition flex flex-col justify-between"
+            >
               <div>
                 <span className="text-[11px] font-bold text-red-600 bg-red-50 px-2.5 py-0.5 rounded-full inline-block mb-2">
                   {srv.tag}
                 </span>
-                <h3 className="font-bold text-base md:text-lg text-slate-900 mb-1.5">{srv.title}</h3>
-                <p className="text-slate-500 text-xs md:text-sm leading-relaxed mb-4">{srv.desc}</p>
+                <h3 className="font-bold text-base md:text-lg text-slate-900 mb-1.5">
+                  {srv.title}
+                </h3>
+                <p className="text-slate-500 text-xs md:text-sm leading-relaxed mb-4">
+                  {srv.desc}
+                </p>
               </div>
               <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
-                <span className="font-black text-slate-900 text-sm md:text-base">{srv.price}</span>
+                <span className="font-black text-slate-900 text-sm md:text-base">
+                  {srv.price}
+                </span>
                 <button
                   type="button"
                   onClick={() => handleSelectService(srv.title)}
@@ -397,14 +463,21 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="phu-tung" className="py-12 md:py-16 bg-slate-100 scroll-mt-12">
+      <section
+        id="phu-tung"
+        className="py-12 md:py-16 bg-slate-100 scroll-mt-12"
+      >
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 md:mb-8 gap-3">
             <div>
-              <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900">Kho Phụ Tùng Xe Máy</h2>
-              <p className="text-slate-500 text-xs md:text-sm mt-0.5">Linh kiện thay thế chính hãng cho Honda, Yamaha, Piaggio...</p>
+              <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900">
+                Kho Phụ Tùng Xe Máy
+              </h2>
+              <p className="text-slate-500 text-xs md:text-sm mt-0.5">
+                Linh kiện thay thế chính hãng cho Honda, Yamaha, Piaggio...
+              </p>
             </div>
-            
+
             <div className="flex items-center gap-2 overflow-x-auto pb-2 pt-1 no-scrollbar -mx-4 px-4 md:mx-0 md:px-0">
               {categories.map((cat) => (
                 <button
@@ -412,8 +485,8 @@ export default function Home() {
                   onClick={() => handleFilterChange(cat)}
                   className={`px-3.5 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition flex-shrink-0 ${
                     selectedFilter === cat
-                      ? 'bg-slate-900 text-white shadow'
-                      : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-200'
+                      ? "bg-slate-900 text-white shadow"
+                      : "bg-white text-slate-700 border border-slate-200 hover:bg-slate-200"
                   }`}
                 >
                   {cat}
@@ -424,9 +497,16 @@ export default function Home() {
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
             {currentProducts.map((prod) => (
-              <div key={prod.id} className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col">
+              <div
+                key={prod.id}
+                className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col"
+              >
                 <div className="h-36 sm:h-44 w-full bg-slate-200 relative overflow-hidden">
-                  <img src={prod.image} alt={prod.name} className="w-full h-full object-cover" />
+                  <img
+                    src={prod.image}
+                    alt={prod.name}
+                    className="w-full h-full object-cover"
+                  />
                   <span className="absolute top-2 left-2 bg-slate-900/80 backdrop-blur-sm text-white text-[10px] font-semibold px-2 py-0.5 rounded">
                     {prod.category}
                   </span>
@@ -442,7 +522,7 @@ export default function Home() {
                   </div>
                   <div className="mt-2 pt-2 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                     <span className="text-red-600 font-extrabold text-sm sm:text-base">
-                      {prod.price.toLocaleString('vi-VN')}đ
+                      {prod.price.toLocaleString("vi-VN")}đ
                     </span>
                     <button
                       onClick={() => addItem(prod)}
@@ -467,23 +547,27 @@ export default function Home() {
               </button>
 
               <div className="flex items-center gap-1">
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                  <button
-                    key={page}
-                    onClick={() => setCurrentPage(page)}
-                    className={`w-8 h-8 rounded-xl text-xs font-bold transition flex items-center justify-center ${
-                      currentPage === page
-                        ? 'bg-red-600 text-white shadow-md shadow-red-600/20'
-                        : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
-                    }`}
-                  >
-                    {page}
-                  </button>
-                ))}
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                  (page) => (
+                    <button
+                      key={page}
+                      onClick={() => setCurrentPage(page)}
+                      className={`w-8 h-8 rounded-xl text-xs font-bold transition flex items-center justify-center ${
+                        currentPage === page
+                          ? "bg-red-600 text-white shadow-md shadow-red-600/20"
+                          : "bg-white border border-slate-200 text-slate-700 hover:bg-slate-50"
+                      }`}
+                    >
+                      {page}
+                    </button>
+                  ),
+                )}
               </div>
 
               <button
-                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                onClick={() =>
+                  setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                }
                 disabled={currentPage === totalPages}
                 className="px-3 py-1.5 rounded-xl border border-slate-300 bg-white text-xs font-bold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-50 transition"
               >
@@ -500,86 +584,126 @@ export default function Home() {
             <span className="text-red-600 font-bold text-[11px] uppercase tracking-wider bg-red-50 px-3 py-1 rounded-full">
               Ưu tiên sửa trước
             </span>
-            <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 mt-2">Đặt Lịch Hẹn Làm Xe</h2>
-            <p className="text-slate-500 text-xs md:text-sm mt-1">Tránh phải chờ đợi giờ cao điểm, xưởng chuẩn bị sẵn phụ tùng</p>
+            <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 mt-2">
+              Đặt Lịch Hẹn Làm Xe
+            </h2>
+            <p className="text-slate-500 text-xs md:text-sm mt-1">
+              Tránh phải chờ đợi giờ cao điểm, xưởng chuẩn bị sẵn phụ tùng
+            </p>
           </div>
 
           {bookingSuccess ? (
             <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-6 text-center text-emerald-800">
               <CheckCircle2 className="w-10 h-10 mx-auto text-emerald-600 mb-2" />
-              <h3 className="text-base md:text-lg font-bold">Đặt lịch thành công!</h3>
-              <p className="text-xs md:text-sm mt-1">Xưởng đã tiếp nhận thông tin và sẽ gọi xác nhận trong vòng 10 phút.</p>
+              <h3 className="text-base md:text-lg font-bold">
+                Đặt lịch thành công!
+              </h3>
+              <p className="text-xs md:text-sm mt-1">
+                Xưởng đã tiếp nhận thông tin và sẽ gọi xác nhận trong vòng 10
+                phút.
+              </p>
             </div>
           ) : (
-            <form onSubmit={handleBookingSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+            <form
+              onSubmit={handleBookingSubmit}
+              className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4"
+            >
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Họ và Tên *</label>
+                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+                  Họ và Tên *
+                </label>
                 <input
                   type="text"
                   required
                   placeholder="Ví dụ: Nguyễn Văn A"
                   className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-red-600 text-sm"
                   value={booking.name}
-                  onChange={(e) => setBooking({ ...booking, name: e.target.value })}
+                  onChange={(e) =>
+                    setBooking({ ...booking, name: e.target.value })
+                  }
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Số Điện Thoại *</label>
+                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+                  Số Điện Thoại *
+                </label>
                 <input
                   type="tel"
                   required
                   placeholder="09xx xxx xxx"
                   className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-red-600 text-sm"
                   value={booking.phone}
-                  onChange={(e) => setBooking({ ...booking, phone: e.target.value })}
+                  onChange={(e) =>
+                    setBooking({ ...booking, phone: e.target.value })
+                  }
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Dòng Xe *</label>
+                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+                  Dòng Xe *
+                </label>
                 <input
                   type="text"
                   required
                   placeholder="Ví dụ: Air Blade, SH, Winner..."
                   className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-red-600 text-sm"
                   value={booking.bikeModel}
-                  onChange={(e) => setBooking({ ...booking, bikeModel: e.target.value })}
+                  onChange={(e) =>
+                    setBooking({ ...booking, bikeModel: e.target.value })
+                  }
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Dịch Vụ Cần Làm</label>
+                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+                  Dịch Vụ Cần Làm
+                </label>
                 <select
                   className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-red-600 text-sm bg-white font-medium text-slate-800 transition"
                   value={booking.service}
-                  onChange={(e) => setBooking({ ...booking, service: e.target.value })}
+                  onChange={(e) =>
+                    setBooking({ ...booking, service: e.target.value })
+                  }
                 >
                   {SERVICES.map((s) => (
-                    <option key={s.id} value={s.title}>{s.title}</option>
+                    <option key={s.id} value={s.title}>
+                      {s.title}
+                    </option>
                   ))}
-                  <option value="Kiểm tra tổng quát / Vấn đề khác">Kiểm tra tổng quát / Vấn đề khác</option>
+                  <option value="Kiểm tra tổng quát / Vấn đề khác">
+                    Kiểm tra tổng quát / Vấn đề khác
+                  </option>
                 </select>
               </div>
 
               <div className="md:col-span-2">
-                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Thời Gian Dự Kiến Tới</label>
+                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+                  Thời Gian Dự Kiến Tới
+                </label>
                 <input
                   type="datetime-local"
                   className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-red-600 text-sm"
                   value={booking.date}
-                  onChange={(e) => setBooking({ ...booking, date: e.target.value })}
+                  onChange={(e) =>
+                    setBooking({ ...booking, date: e.target.value })
+                  }
                 />
               </div>
 
               <div className="md:col-span-2">
-                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Triệu chứng của xe</label>
+                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+                  Triệu chứng của xe
+                </label>
                 <textarea
                   rows={2}
                   placeholder="Ví dụ: Lên ga bị hụp, kêu nồi sau, phanh không ăn..."
                   className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-red-600 text-sm"
                   value={booking.note}
-                  onChange={(e) => setBooking({ ...booking, note: e.target.value })}
+                  onChange={(e) =>
+                    setBooking({ ...booking, note: e.target.value })
+                  }
                 ></textarea>
               </div>
 
@@ -589,21 +713,29 @@ export default function Home() {
                 className="md:col-span-2 bg-red-600 hover:bg-red-700 disabled:bg-slate-400 text-white font-bold py-3 rounded-xl shadow-lg shadow-red-600/30 transition text-sm uppercase tracking-wide mt-1 flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Send className="w-4 h-4" />
-                {isSubmitting ? 'Đang gửi thông tin...' : 'Gửi Lịch Hẹn Ngay'}
+                {isSubmitting ? "Đang gửi thông tin..." : "Gửi Lịch Hẹn Ngay"}
               </button>
             </form>
           )}
         </div>
       </section>
 
-      <section id="vi-tri" className="py-12 md:py-16 bg-slate-100 border-t border-slate-200">
+      <section
+        id="vi-tri"
+        className="py-12 md:py-16 bg-slate-100 border-t border-slate-200"
+      >
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center max-w-2xl mx-auto mb-8">
             <span className="text-red-600 font-bold text-xs uppercase tracking-wider bg-red-50 border border-red-200 px-3 py-1 rounded-full inline-block mb-2">
               Vị Trí Cửa Hàng
             </span>
-            <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900">Tìm Đường Đến Sửa Xe Chính</h2>
-            <p className="text-slate-500 text-xs md:text-sm mt-1">Nằm ngay mặt tiền đường Bùi Văn Hòa, gần KCN Biên Hòa 2 và vòng xoay Cổng 11</p>
+            <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900">
+              Tìm Đường Đến Sửa Xe Chính
+            </h2>
+            <p className="text-slate-500 text-xs md:text-sm mt-1">
+              Nằm ngay mặt tiền đường Bùi Văn Hòa, gần KCN Biên Hòa 2 và vòng
+              xoay Cổng 11
+            </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 bg-white p-4 md:p-6 rounded-3xl border border-slate-200 shadow-sm">
@@ -614,8 +746,12 @@ export default function Home() {
                     <MapPin className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-sm text-slate-900 mb-0.5">Địa Chỉ Trực Tiếp</h4>
-                    <p className="text-xs text-slate-600 leading-relaxed">{ADDRESS}</p>
+                    <h4 className="font-bold text-sm text-slate-900 mb-0.5">
+                      Địa Chỉ Trực Tiếp
+                    </h4>
+                    <p className="text-xs text-slate-600 leading-relaxed">
+                      {ADDRESS}
+                    </p>
                   </div>
                 </div>
 
@@ -624,9 +760,15 @@ export default function Home() {
                     <Clock className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-sm text-slate-900 mb-0.5">Giờ Mở Cửa</h4>
-                    <p className="text-xs text-slate-600">07:30 - 19:30 (Thứ 2 - Chủ Nhật)</p>
-                    <p className="text-[11px] text-emerald-600 font-semibold mt-0.5">Cứu hộ khẩn cấp phục vụ 24/7</p>
+                    <h4 className="font-bold text-sm text-slate-900 mb-0.5">
+                      Giờ Mở Cửa
+                    </h4>
+                    <p className="text-xs text-slate-600">
+                      07:30 - 19:30 (Thứ 2 - Chủ Nhật)
+                    </p>
+                    <p className="text-[11px] text-emerald-600 font-semibold mt-0.5">
+                      Cứu hộ khẩn cấp phục vụ 24/7
+                    </p>
                   </div>
                 </div>
 
@@ -635,8 +777,15 @@ export default function Home() {
                     <PhoneCall className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-sm text-slate-900 mb-0.5">Hỗ Trợ & Chỉ Đường</h4>
-                    <p className="text-xs text-slate-600">Hotline: <strong className="text-slate-900">{HOTLINE_DISPLAY}</strong></p>
+                    <h4 className="font-bold text-sm text-slate-900 mb-0.5">
+                      Hỗ Trợ & Chỉ Đường
+                    </h4>
+                    <p className="text-xs text-slate-600">
+                      Hotline:{" "}
+                      <strong className="text-slate-900">
+                        {HOTLINE_DISPLAY}
+                      </strong>
+                    </p>
                   </div>
                 </div>
               </div>
@@ -648,7 +797,8 @@ export default function Home() {
                   rel="noreferrer"
                   className="w-full bg-slate-900 hover:bg-red-600 text-white font-bold py-3 px-4 rounded-xl transition flex items-center justify-center gap-2 text-xs md:text-sm shadow-md"
                 >
-                  <Navigation className="w-4 h-4" /> Mở Bằng Google Maps (Dẫn Đường)
+                  <Navigation className="w-4 h-4" /> Mở Bằng Google Maps (Dẫn
+                  Đường)
                 </a>
               </div>
             </div>
@@ -672,9 +822,14 @@ export default function Home() {
             <div className="flex items-center justify-between pb-4 border-b border-slate-200">
               <div className="flex items-center gap-2">
                 <ShoppingCart className="w-5 h-5 text-red-600" />
-                <h3 className="font-bold text-base md:text-lg text-slate-900">Giỏ Hàng Phụ Tùng</h3>
+                <h3 className="font-bold text-base md:text-lg text-slate-900">
+                  Giỏ Hàng Phụ Tùng
+                </h3>
               </div>
-              <button onClick={() => setIsCartOpen(false)} className="p-1.5 text-slate-400 hover:text-slate-600">
+              <button
+                onClick={() => setIsCartOpen(false)}
+                className="p-1.5 text-slate-400 hover:text-slate-600"
+              >
                 <X className="w-6 h-6" />
               </button>
             </div>
@@ -687,15 +842,27 @@ export default function Home() {
                 </div>
               ) : (
                 items.map((item) => (
-                  <div key={item.id} className="flex gap-3 items-center border-b border-slate-100 pb-3">
-                    <img src={item.image} alt={item.name} className="w-12 h-12 object-cover rounded-lg bg-slate-100" />
+                  <div
+                    key={item.id}
+                    className="flex gap-3 items-center border-b border-slate-100 pb-3"
+                  >
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-12 h-12 object-cover rounded-lg bg-slate-100"
+                    />
                     <div className="flex-1 min-w-0">
-                      <h4 className="font-bold text-xs text-slate-900 truncate">{item.name}</h4>
+                      <h4 className="font-bold text-xs text-slate-900 truncate">
+                        {item.name}
+                      </h4>
                       <span className="text-red-600 font-extrabold text-xs block mt-0.5">
-                        {item.price.toLocaleString('vi-VN')}đ x {item.quantity}
+                        {item.price.toLocaleString("vi-VN")}đ x {item.quantity}
                       </span>
                     </div>
-                    <button onClick={() => removeItem(item.id)} className="text-slate-400 hover:text-red-600 p-1">
+                    <button
+                      onClick={() => removeItem(item.id)}
+                      className="text-slate-400 hover:text-red-600 p-1"
+                    >
                       <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
@@ -707,7 +874,9 @@ export default function Home() {
               <div className="pt-4 border-t border-slate-200 space-y-3">
                 <div className="flex items-center justify-between text-sm md:text-base">
                   <span className="font-medium text-slate-600">Tổng tiền:</span>
-                  <span className="font-black text-red-600 text-lg md:text-xl">{total().toLocaleString('vi-VN')}đ</span>
+                  <span className="font-black text-red-600 text-lg md:text-xl">
+                    {total().toLocaleString("vi-VN")}đ
+                  </span>
                 </div>
                 <button
                   onClick={() => {
@@ -727,12 +896,19 @@ export default function Home() {
       {isCheckoutOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
           <div className="bg-white rounded-3xl p-5 md:p-6 max-w-sm w-full text-center relative shadow-2xl">
-            <button onClick={() => setIsCheckoutOpen(false)} className="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+            <button
+              onClick={() => setIsCheckoutOpen(false)}
+              className="absolute top-4 right-4 text-slate-400 hover:text-slate-600"
+            >
               <X className="w-5 h-5" />
             </button>
 
-            <h3 className="font-bold text-base md:text-lg text-slate-900 mb-1">Mã QR Thanh Toán</h3>
-            <p className="text-xs text-slate-500 mb-3">Mở ứng dụng ngân hàng bất kỳ để quét mã</p>
+            <h3 className="font-bold text-base md:text-lg text-slate-900 mb-1">
+              Mã QR Thanh Toán
+            </h3>
+            <p className="text-xs text-slate-500 mb-3">
+              Mở ứng dụng ngân hàng bất kỳ để quét mã
+            </p>
 
             <div className="bg-slate-50 p-3 rounded-2xl border border-slate-200 mb-3 inline-block">
               <img
@@ -743,15 +919,23 @@ export default function Home() {
             </div>
 
             <div className="text-left text-xs bg-slate-50 p-3 rounded-xl space-y-1 mb-4">
-              <div className="flex justify-between"><span className="text-slate-500">Số tiền:</span><span className="font-bold text-red-600">{total().toLocaleString('vi-VN')}đ</span></div>
-              <div className="flex justify-between"><span className="text-slate-500">Nội dung:</span><span className="font-bold">DonHangPhuTung</span></div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">Số tiền:</span>
+                <span className="font-bold text-red-600">
+                  {total().toLocaleString("vi-VN")}đ
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-500">Nội dung:</span>
+                <span className="font-bold">DonHangPhuTung</span>
+              </div>
             </div>
 
             <button
               onClick={() => {
                 clearCart();
                 setIsCheckoutOpen(false);
-                alert('Đã xác nhận đơn hàng thành công!');
+                alert("Đã xác nhận đơn hàng thành công!");
               }}
               className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-2.5 rounded-xl text-xs uppercase"
             >
@@ -761,43 +945,77 @@ export default function Home() {
         </div>
       )}
 
-      <footer id="lien-he" className="bg-slate-950 text-slate-400 py-10 border-t border-slate-900 text-sm">
+      <footer
+        id="lien-he"
+        className="bg-slate-950 text-slate-400 py-10 border-t border-slate-900 text-sm"
+      >
         <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           <div>
             <div className="flex items-center gap-2.5 text-white font-bold text-base md:text-lg mb-2">
-              <img 
-                src="/logo.png" 
-                alt="Logo Sửa Xe Chính" 
-                className="w-8 h-8 object-contain drop-shadow" 
+              <img
+                src="/logo.png"
+                alt="Logo Sửa Xe Chính"
+                className="w-8 h-8 object-contain drop-shadow"
               />
               <span>SỬA XE CHÍNH</span>
             </div>
             <p className="text-xs leading-relaxed text-slate-400">
-              Trạm dịch vụ kỹ thuật sửa xe máy uy tín, phân phối linh kiện phụ tùng chính hãng và cứu hộ khẩn cấp 24/7 khu vực Biên Hòa.
+              Trạm dịch vụ kỹ thuật sửa xe máy uy tín, phân phối linh kiện phụ
+              tùng chính hãng và cứu hộ khẩn cấp 24/7 khu vực Biên Hòa.
             </p>
           </div>
 
           <div>
-            <h4 className="text-white font-bold text-xs md:text-sm mb-2 uppercase">Địa Chỉ & Giờ Làm Việc</h4>
+            <h4 className="text-white font-bold text-xs md:text-sm mb-2 uppercase">
+              Địa Chỉ & Giờ Làm Việc
+            </h4>
             <div className="space-y-1.5 text-xs">
-              <a 
-                href={GOOGLE_MAPS_URL} 
-                target="_blank" 
+              <a
+                href={GOOGLE_MAPS_URL}
+                target="_blank"
                 rel="noreferrer"
                 className="flex items-start gap-2 hover:text-white transition group"
               >
-                <MapPin className="w-4 h-4 text-red-600 shrink-0 mt-0.5 group-hover:scale-110 transition" /> 
-                <span>{ADDRESS} <span className="text-red-400 underline block text-[11px] mt-0.5">Bấm xem trên Google Maps →</span></span>
+                <MapPin className="w-4 h-4 text-red-600 shrink-0 mt-0.5 group-hover:scale-110 transition" />
+                <span>
+                  {ADDRESS}{" "}
+                  <span className="text-red-400 underline block text-[11px] mt-0.5">
+                    Bấm xem trên Google Maps →
+                  </span>
+                </span>
               </a>
-              <p className="flex items-center gap-2 pt-1"><Clock className="w-4 h-4 text-red-600 shrink-0" /> 07:30 - 19:30 (Cả Thứ 7 & Chủ Nhật)</p>
+              <p className="flex items-center gap-2 pt-1">
+                <Clock className="w-4 h-4 text-red-600 shrink-0" /> 07:30 -
+                19:30 (Cả Thứ 7 & Chủ Nhật)
+              </p>
             </div>
           </div>
 
           <div>
-            <h4 className="text-white font-bold text-xs md:text-sm mb-2 uppercase">Hotline Cứu Hộ & Hỗ Trợ</h4>
+            <h4 className="text-white font-bold text-xs md:text-sm mb-2 uppercase">
+              Hotline Cứu Hộ & Hỗ Trợ
+            </h4>
             <div className="space-y-1 text-xs">
-              <p>Hotline: <a href={`tel:${HOTLINE}`} className="text-red-500 font-bold underline">{HOTLINE_DISPLAY}</a></p>
-              <p>Zalo Tiếp Nhận: <a href={ZALO_LINK} target="_blank" rel="noreferrer" className="text-blue-400 font-bold underline">{HOTLINE_DISPLAY}</a></p>
+              <p>
+                Hotline:{" "}
+                <a
+                  href={`tel:${HOTLINE}`}
+                  className="text-red-500 font-bold underline"
+                >
+                  {HOTLINE_DISPLAY}
+                </a>
+              </p>
+              <p>
+                Zalo Tiếp Nhận:{" "}
+                <a
+                  href={ZALO_LINK}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-blue-400 font-bold underline"
+                >
+                  {HOTLINE_DISPLAY}
+                </a>
+              </p>
             </div>
           </div>
         </div>
@@ -807,9 +1025,9 @@ export default function Home() {
       </footer>
 
       <div className="fixed bottom-24 md:bottom-8 left-4 z-40 flex flex-col items-start gap-3">
-        <a 
-          href={ZALO_LINK} 
-          target="_blank" 
+        <a
+          href={ZALO_LINK}
+          target="_blank"
           rel="noreferrer"
           aria-label="Nhắn tin Zalo"
           className="group flex items-center bg-[#0068FF] text-white p-2.5 rounded-full shadow-lg hover:bg-[#0054cc] transition shadow-blue-500/30"
@@ -822,8 +1040,8 @@ export default function Home() {
           </span>
         </a>
 
-        <a 
-          href={`tel:${HOTLINE}`} 
+        <a
+          href={`tel:${HOTLINE}`}
           aria-label="Gọi hotline cứu hộ"
           className="group flex items-center bg-red-600 text-white p-3 rounded-full shadow-xl hover:bg-red-700 transition shadow-red-600/40 relative"
         >
@@ -848,23 +1066,35 @@ export default function Home() {
       )}
 
       <nav className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 py-2 px-6 flex justify-between items-center md:hidden">
-        <a href="#" className="flex flex-col items-center gap-0.5 text-slate-600 hover:text-red-600">
+        <a
+          href="#"
+          className="flex flex-col items-center gap-0.5 text-slate-600 hover:text-red-600"
+        >
           <HomeIcon className="w-5 h-5" />
           <span className="text-[10px] font-medium">Trang chủ</span>
         </a>
-        <a href="#dich-vu" className="flex flex-col items-center gap-0.5 text-slate-600 hover:text-red-600">
+        <a
+          href="#dich-vu"
+          className="flex flex-col items-center gap-0.5 text-slate-600 hover:text-red-600"
+        >
           <Wrench className="w-5 h-5" />
           <span className="text-[10px] font-medium">Dịch vụ</span>
         </a>
-        <a href="#phu-tung" className="flex flex-col items-center gap-0.5 text-slate-600 hover:text-red-600">
+        <a
+          href="#phu-tung"
+          className="flex flex-col items-center gap-0.5 text-slate-600 hover:text-red-600"
+        >
           <Package className="w-5 h-5" />
           <span className="text-[10px] font-medium">Phụ tùng</span>
         </a>
-        <a href="#dat-lich" className="flex flex-col items-center gap-0.5 text-slate-600 hover:text-red-600">
+        <a
+          href="#dat-lich"
+          className="flex flex-col items-center gap-0.5 text-slate-600 hover:text-red-600"
+        >
           <Calendar className="w-5 h-5" />
           <span className="text-[10px] font-medium">Đặt lịch</span>
         </a>
-        <button 
+        <button
           onClick={() => setIsCartOpen(true)}
           className="flex flex-col items-center gap-0.5 text-slate-600 hover:text-red-600 relative"
         >
