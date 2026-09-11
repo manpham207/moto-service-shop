@@ -13,7 +13,6 @@ import {
   QrCode,
   MapPin,
   ShieldCheck,
-  ChevronRight,
   Package,
   Home as HomeIcon,
   ArrowUp,
@@ -202,6 +201,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 pb-20 md:pb-0 relative">
+      {/* 1. Thanh Cảnh Báo Cứu Hộ */}
       <div className="bg-gradient-to-r from-red-600 via-rose-600 to-red-700 text-white px-4 py-2 text-xs md:text-sm font-semibold shadow-md">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -224,6 +224,7 @@ export default function Home() {
         </div>
       </div>
 
+      {/* 2. Header */}
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 h-16 md:h-18 flex items-center justify-between">
           <a href="#" className="flex items-center gap-3 shrink-0 group">
@@ -288,6 +289,7 @@ export default function Home() {
         </div>
       </header>
 
+      {/* 3. Hero Section (Auto Slider 3s) */}
       <section className="relative overflow-hidden bg-slate-950 text-white min-h-[460px] md:min-h-[520px] flex items-center">
         {BANNER_SLIDES.map((slide, idx) => (
           <div
@@ -419,41 +421,43 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="dich-vu" className="py-12 md:py-16 max-w-7xl mx-auto px-4">
-        <div className="text-center max-w-2xl mx-auto mb-8 md:mb-12">
-          <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900">
+      {/* 4. Dịch Vụ - Tối ưu 2 cột trên điện thoại cực gọn */}
+      <section id="dich-vu" className="py-8 md:py-16 max-w-7xl mx-auto px-3 md:px-4">
+        <div className="text-center max-w-2xl mx-auto mb-5 md:mb-12">
+          <h2 className="text-xl md:text-3xl font-extrabold text-slate-900">
             Dịch Vụ Sửa Chữa & Bảo Dưỡng
           </h2>
-          <p className="text-slate-500 text-xs md:text-sm mt-1">
+          <p className="text-slate-500 text-xs md:text-sm mt-0.5">
             Báo giá trước, công khai chi phí, không lo chặt chém
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 md:gap-6">
           {SERVICES.map((srv) => (
             <div
               key={srv.id}
-              className="bg-white border border-slate-200 rounded-2xl p-5 md:p-6 shadow-sm hover:shadow-md transition flex flex-col justify-between"
+              className="bg-white border border-slate-200 rounded-xl md:rounded-2xl p-3 md:p-6 shadow-sm hover:shadow-md transition flex flex-col justify-between"
             >
               <div>
-                <span className="text-[11px] font-bold text-red-600 bg-red-50 px-2.5 py-0.5 rounded-full inline-block mb-2">
+                <span className="text-[9px] md:text-[11px] font-bold text-red-600 bg-red-50 px-2 py-0.5 rounded-full inline-block mb-1.5 md:mb-2">
                   {srv.tag}
                 </span>
-                <h3 className="font-bold text-base md:text-lg text-slate-900 mb-1.5">
+                <h3 className="font-bold text-xs sm:text-sm md:text-lg text-slate-900 mb-1 line-clamp-2 leading-tight">
                   {srv.title}
                 </h3>
-                <p className="text-slate-500 text-xs md:text-sm leading-relaxed mb-4">
+                <p className="text-slate-500 text-[11px] md:text-sm leading-snug line-clamp-2 md:line-clamp-none mb-2 md:mb-4">
                   {srv.desc}
                 </p>
               </div>
-              <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
-                <span className="font-black text-slate-900 text-sm md:text-base">
+
+              <div className="pt-2 md:pt-3 border-t border-slate-100 flex items-center justify-between gap-1">
+                <span className="font-black text-red-600 md:text-slate-900 text-xs sm:text-sm md:text-base">
                   {srv.price}
                 </span>
                 <button
                   type="button"
                   onClick={() => handleSelectService(srv.title)}
-                  className="text-xs font-bold text-red-600 hover:text-red-700 hover:underline flex items-center gap-1 cursor-pointer transition"
+                  className="text-[11px] md:text-xs font-bold text-slate-900 md:text-red-600 bg-slate-100 md:bg-transparent px-2 py-1 md:p-0 rounded-lg hover:text-red-700 hover:underline flex items-center shrink-0 cursor-pointer transition"
                 >
                   Đặt hẹn →
                 </button>
@@ -463,6 +467,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* 5. Phụ Tùng */}
       <section
         id="phu-tung"
         className="py-12 md:py-16 bg-slate-100 scroll-mt-12"
@@ -578,6 +583,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* 6. Đặt Lịch Hẹn */}
       <section id="dat-lich" className="py-12 md:py-16 max-w-3xl mx-auto px-4">
         <div className="bg-white border border-slate-200 rounded-3xl p-5 md:p-8 shadow-sm">
           <div className="text-center mb-6 md:mb-8">
@@ -720,6 +726,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* 7. Vị trí Bản Đồ */}
       <section
         id="vi-tri"
         className="py-12 md:py-16 bg-slate-100 border-t border-slate-200"
@@ -816,6 +823,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* 8. Giỏ Hàng Drawer */}
       {isCartOpen && (
         <div className="fixed inset-0 z-50 flex justify-end bg-black/50 backdrop-blur-sm animate-in fade-in">
           <div className="w-full max-w-md bg-white h-full flex flex-col shadow-2xl p-5 md:p-6">
@@ -893,6 +901,7 @@ export default function Home() {
         </div>
       )}
 
+      {/* 9. VietQR Modal */}
       {isCheckoutOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
           <div className="bg-white rounded-3xl p-5 md:p-6 max-w-sm w-full text-center relative shadow-2xl">
@@ -945,6 +954,7 @@ export default function Home() {
         </div>
       )}
 
+      {/* 10. Footer */}
       <footer
         id="lien-he"
         className="bg-slate-950 text-slate-400 py-10 border-t border-slate-900 text-sm"
@@ -1024,6 +1034,7 @@ export default function Home() {
         </div>
       </footer>
 
+      {/* 11. Quick Contact Float (Left) */}
       <div className="fixed bottom-24 md:bottom-8 left-4 z-40 flex flex-col items-start gap-3">
         <a
           href={ZALO_LINK}
@@ -1053,6 +1064,7 @@ export default function Home() {
         </a>
       </div>
 
+      {/* 12. Back To Top (Right) */}
       {showBackToTop && (
         <div className="fixed bottom-24 md:bottom-8 right-4 z-40">
           <button
@@ -1065,6 +1077,7 @@ export default function Home() {
         </div>
       )}
 
+      {/* 13. Mobile Bottom Navigation */}
       <nav className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 py-2 px-6 flex justify-between items-center md:hidden">
         <a
           href="#"
