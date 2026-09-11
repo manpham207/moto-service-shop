@@ -224,63 +224,98 @@ export default function Home() {
         </div>
       </div>
 
-      {/* 2. Header */}
-      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 h-16 md:h-18 flex items-center justify-between">
-          <a href="#" className="flex items-center gap-3 shrink-0 group">
-            <div className="w-12 h-12 md:w-13 md:h-13 aspect-square rounded-full border-2 border-red-600 bg-white p-1 flex items-center justify-center shrink-0 shadow-sm transition-transform duration-300 group-hover:scale-105">
-              <img
-                src="/logo.png"
-                alt="Logo Sửa Xe Chính"
-                className="w-full h-full object-contain"
-              />
+      {/* 2. Header Nâng Cấp Thương Hiệu */}
+      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-lg border-b border-slate-200/80 shadow-sm transition-all">
+        <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between gap-4">
+          <a href="#" className="flex items-center gap-3.5 group shrink-0">
+            <div className="relative w-14 h-14 md:w-15 md:h-15 aspect-square rounded-2xl bg-gradient-to-br from-red-600 to-rose-700 p-0.5 shadow-md shadow-red-600/25 transition-transform duration-300 group-hover:scale-105">
+              <div className="w-full h-full bg-white rounded-[14px] p-1 flex items-center justify-center overflow-hidden">
+                <img
+                  src="/logo.png"
+                  alt="Logo Sửa Xe Chính"
+                  className="w-full h-full object-contain drop-shadow-sm"
+                />
+              </div>
             </div>
 
             <div className="flex flex-col justify-center">
-              <span className="font-black text-lg md:text-xl tracking-tight text-slate-900 leading-none">
-                SỬA XE <span className="text-red-600">CHÍNH</span>
-              </span>
-              <span className="text-[10px] md:text-[11px] text-slate-500 uppercase tracking-wider font-bold mt-1">
-                Uy Tín • Chuyên Nghiệp
+              <div className="flex items-center gap-2">
+                <span className="font-black text-2xl md:text-3xl tracking-tight leading-none text-slate-950">
+                  SỬA XE{" "}
+                  <span className="bg-gradient-to-r from-red-600 to-rose-600 bg-clip-text text-transparent">
+                    CHÍNH
+                  </span>
+                </span>
+                <span className="hidden lg:inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider bg-red-50 text-red-600 px-2 py-0.5 rounded-md border border-red-200/60">
+                  <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-ping"></span>
+                  Gara Uy Tín
+                </span>
+              </div>
+              <span className="text-[11px] md:text-xs text-slate-500 uppercase tracking-widest font-bold mt-1">
+                Kỹ Thuật Cao • Bảo Hành Dài Hạn
               </span>
             </div>
           </a>
 
-          <nav className="hidden md:flex items-center gap-8 font-medium text-sm text-slate-600">
-            <a href="#dich-vu" className="hover:text-red-600 transition">
+          <nav className="hidden lg:flex items-center bg-slate-100/80 p-1.5 rounded-2xl border border-slate-200/60 font-semibold text-sm text-slate-700">
+            <a
+              href="#dich-vu"
+              className="px-4 py-2 rounded-xl hover:bg-white hover:text-red-600 hover:shadow-sm transition-all duration-200"
+            >
               Dịch Vụ
             </a>
-            <a href="#phu-tung" className="hover:text-red-600 transition">
+            <a
+              href="#phu-tung"
+              className="px-4 py-2 rounded-xl hover:bg-white hover:text-red-600 hover:shadow-sm transition-all duration-200"
+            >
               Phụ Tùng
             </a>
-            <a href="#dat-lich" className="hover:text-red-600 transition">
+            <a
+              href="#dat-lich"
+              className="px-4 py-2 rounded-xl hover:bg-white hover:text-red-600 hover:shadow-sm transition-all duration-200"
+            >
               Đặt Lịch Hẹn
             </a>
-            <a href="#vi-tri" className="hover:text-red-600 transition">
+            <a
+              href="#vi-tri"
+              className="px-4 py-2 rounded-xl hover:bg-white hover:text-red-600 hover:shadow-sm transition-all duration-200"
+            >
               Bản Đồ
             </a>
-            <a href="#lien-he" className="hover:text-red-600 transition">
+            <a
+              href="#lien-he"
+              className="px-4 py-2 rounded-xl hover:bg-white hover:text-red-600 hover:shadow-sm transition-all duration-200"
+            >
               Liên Hệ
             </a>
           </nav>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 shrink-0">
             <a
               href={`tel:${HOTLINE}`}
-              className="hidden md:flex items-center gap-1.5 text-xs bg-red-50 text-red-700 px-3 py-2 rounded-full font-bold border border-red-100 hover:bg-red-100 transition shadow-sm"
+              className="hidden sm:flex items-center gap-2.5 bg-gradient-to-r from-red-50 to-rose-50 border border-red-200/80 text-red-700 px-4 py-2.5 rounded-2xl font-bold text-xs md:text-sm hover:border-red-400 hover:bg-red-100/70 transition shadow-sm group"
             >
-              <PhoneCall className="w-3.5 h-3.5 text-red-600 animate-pulse" />
-              <span>Hotline: {HOTLINE_DISPLAY}</span>
+              <div className="w-7 h-7 rounded-xl bg-red-600 text-white flex items-center justify-center shadow-md shadow-red-600/30 group-hover:scale-110 transition">
+                <PhoneCall className="w-3.5 h-3.5 animate-pulse" />
+              </div>
+              <div className="flex flex-col text-left leading-tight">
+                <span className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">
+                  Hotline Cứu Hộ
+                </span>
+                <span className="text-slate-900 font-black">
+                  {HOTLINE_DISPLAY}
+                </span>
+              </div>
             </a>
 
             <button
               onClick={() => setIsCartOpen(true)}
               aria-label="Xem giỏ hàng"
-              className="relative p-2 rounded-full bg-slate-100 hover:bg-slate-200 transition"
+              className="relative p-3 rounded-2xl bg-slate-900 text-white hover:bg-red-600 transition duration-200 shadow-sm flex items-center justify-center"
             >
-              <ShoppingCart className="w-5 h-5 text-slate-700" />
+              <ShoppingCart className="w-5 h-5" />
               {totalCartCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] font-bold w-4 h-4 md:w-5 md:h-5 rounded-full flex items-center justify-center">
+                <span className="absolute -top-1.5 -right-1.5 bg-red-600 text-white text-[11px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-white shadow-md">
                   {totalCartCount}
                 </span>
               )}
@@ -421,8 +456,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4. Dịch Vụ - Tối ưu 2 cột trên điện thoại cực gọn */}
-      <section id="dich-vu" className="py-8 md:py-16 max-w-7xl mx-auto px-3 md:px-4">
+      {/* 4. Dịch Vụ (2 Cột Trên Mobile Siêu Gọn) */}
+      <section
+        id="dich-vu"
+        className="py-8 md:py-16 max-w-7xl mx-auto px-3 md:px-4"
+      >
         <div className="text-center max-w-2xl mx-auto mb-5 md:mb-12">
           <h2 className="text-xl md:text-3xl font-extrabold text-slate-900">
             Dịch Vụ Sửa Chữa & Bảo Dưỡng
@@ -726,7 +764,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 7. Vị trí Bản Đồ */}
+      {/* 7. Vị Trí Bản Đồ */}
       <section
         id="vi-tri"
         className="py-12 md:py-16 bg-slate-100 border-t border-slate-200"
