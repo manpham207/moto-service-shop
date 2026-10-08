@@ -274,13 +274,13 @@ export default function Home() {
       {/* 3. Hero Section */}
       <section className="relative bg-slate-950 text-white min-h-[500px] md:min-h-[580px] flex items-center pt-8 pb-24 md:py-20">
         {BANNER_SLIDES.map((slide, idx) => (
-          <div key={idx} className={`absolute inset-0 transition-opacity duration-1000 ${currentSlide === idx ? "opacity-45" : "opacity-0 pointer-events-none"}`}>
+          <div key={idx} className={`absolute inset-0 transition-opacity duration-1000 ${currentSlide === idx ? "opacity-85" : "opacity-0 pointer-events-none"}`}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={slide.image} alt={slide.title} className="w-full h-full object-cover" />
           </div>
         ))}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/40 to-transparent" />
 
         <div className="max-w-7xl mx-auto px-4 relative z-20 w-full grid lg:grid-cols-2 gap-10 items-center">
           <div className="max-w-2xl">
