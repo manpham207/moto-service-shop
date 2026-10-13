@@ -48,21 +48,21 @@ export default function Home() {
       title: "Sửa Xe Máy & Phụ Tùng",
       highlight: "Chính Hãng",
       desc: "Đội phản ứng nhanh cứu hộ tận nơi khi gặp sự cố trên đường hoặc tại nhà. Báo đúng giá, phụ tùng chính hãng bảo hành dài hạn.",
-      image: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1200&q=80",
+      image: "/CHINH2.png",
     },
     {
       badge: "Cứu hộ khẩn cấp 24/7",
       title: "Cứu Hộ Chết Máy",
       highlight: "Tận Nơi 15 Phút",
       desc: "Hỗ trợ vá vỏ lưu động, kích sạc bình ắc quy, xử lý xe chết máy ngập nước thần tốc khu vực Biên Hòa, Long Bình, Tam Phước.",
-      image: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=1200&q=80",
+      image: "/CHINH2.png",
     },
     {
       badge: "Bảo dưỡng tiêu chuẩn",
       title: "Bảo Dưỡng Toàn Diện",
       highlight: "Êm Ái Tiết Kiệm",
       desc: "Vệ sinh kim phun, buồng đốt, làm nồi, thay nhớt cao cấp giúp xe vận hành mượt mà và bền bỉ như xe mới.",
-      image: "https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&w=1200&q=80",
+      image: "/CHINH2.png",
     },
   ];
 
@@ -187,10 +187,10 @@ export default function Home() {
             </div>
             <div className="flex flex-col justify-center">
               <div className="flex items-center gap-2">
-               <span className="font-black text-xl md:text-3xl tracking-tight leading-none text-slate-900 inline-flex items-baseline gap-1.5">
-  <span>SỬA XE</span>
-  <span className="text-red-600 text-3xl md:text-4xl italic font-black">CHÍNH</span>
-</span>
+                <span className="font-black text-xl md:text-3xl tracking-tight leading-none text-slate-900 inline-flex items-baseline gap-1.5">
+                  <span>SỬA XE</span>
+                  <span className="text-red-600 text-3xl md:text-4xl italic font-black">CHÍNH</span>
+                </span>
                 <span className="hidden lg:inline-flex items-center gap-1 text-[9px] font-black uppercase tracking-widest bg-red-50 text-red-600 px-2 py-0.5 rounded border border-red-100">
                   <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse"></span> Gara Uy Tín
                 </span>
@@ -271,29 +271,31 @@ export default function Home() {
         )}
       </header>
 
-      {/* 3. Hero Section */}
-      <section className="relative bg-slate-950 text-white min-h-[500px] md:min-h-[580px] flex items-center pt-8 pb-24 md:py-20">
+      {/* 3. Hero Section - Chuyển toàn bộ nội dung sang bên phải để lộ bảng hiệu bên trái */}
+      <section className="relative bg-slate-950 text-white min-h-[520px] md:min-h-[600px] flex items-center pt-8 pb-24 md:py-20 overflow-hidden">
         {BANNER_SLIDES.map((slide, idx) => (
-          <div key={idx} className={`absolute inset-0 transition-opacity duration-1000 ${currentSlide === idx ? "opacity-85" : "opacity-0 pointer-events-none"}`}>
+          <div key={idx} className={`absolute inset-0 transition-opacity duration-1000 ${currentSlide === idx ? "opacity-95" : "opacity-0 pointer-events-none"}`}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={slide.image} alt={slide.title} className="w-full h-full object-cover" />
+            <img src={slide.image} alt={slide.title} className="w-full h-full object-cover object-[center_left]" />
           </div>
         ))}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/40 to-transparent" />
 
-        <div className="max-w-7xl mx-auto px-4 relative z-20 w-full grid lg:grid-cols-2 gap-10 items-center">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/10 text-white px-4 py-1.5 rounded-full text-xs font-bold uppercase mb-4">
+        {/* Gradient mờ dần từ phải sang trái để lộ rõ bảng hiệu bên trái */}
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-l from-slate-950/95 via-slate-950/75 md:via-slate-950/50 to-transparent" />
+
+        <div className="max-w-7xl mx-auto px-4 relative z-20 w-full flex justify-end">
+          <div className="max-w-xl w-full lg:mr-4 bg-slate-950/40 lg:bg-transparent backdrop-blur-xs lg:backdrop-blur-none p-5 sm:p-7 lg:p-0 rounded-3xl border border-white/10 lg:border-none shadow-2xl lg:shadow-none">
+            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/15 text-white px-4 py-1.5 rounded-full text-xs font-bold uppercase mb-4 shadow-sm">
               <Sparkles className="w-3.5 h-3.5 text-red-400" /> {BANNER_SLIDES[currentSlide].badge}
             </div>
-            <h1 className="text-3xl sm:text-5xl font-black tracking-tight leading-tight mb-4 drop-shadow-md">
+            <h1 className="text-3xl sm:text-5xl font-black tracking-tight leading-tight mb-4 drop-shadow-lg">
               {BANNER_SLIDES[currentSlide].title} <br/>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-rose-400">
                 {BANNER_SLIDES[currentSlide].highlight}
               </span>
             </h1>
-            <p className="text-slate-300 text-sm sm:text-base mb-6 leading-relaxed max-w-lg">
+            <p className="text-slate-200 text-sm sm:text-base mb-6 leading-relaxed max-w-lg drop-shadow">
               {BANNER_SLIDES[currentSlide].desc}
             </p>
 
@@ -301,14 +303,14 @@ export default function Home() {
               <a href={`tel:${HOTLINE}`} className="bg-red-600 hover:bg-red-500 text-white px-5 py-3 rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-red-600/30 transition text-sm">
                 <PhoneCall className="w-4 h-4 animate-pulse" /> Gọi Cứu Hộ Ngay
               </a>
-              <a href="#dat-lich" onClick={(e) => scrollToSection(e, "dat-lich")} className="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white px-5 py-3 rounded-xl font-bold flex items-center gap-2 transition text-sm">
+              <a href="#dat-lich" onClick={(e) => scrollToSection(e, "dat-lich")} className="bg-white/15 hover:bg-white/25 backdrop-blur-md border border-white/20 text-white px-5 py-3 rounded-xl font-bold flex items-center gap-2 transition text-sm">
                 <Calendar className="w-4 h-4" /> Đặt Lịch
               </a>
             </div>
 
             <div className="flex items-center gap-2 mt-8">
               {BANNER_SLIDES.map((_, idx) => (
-                <button key={idx} onClick={() => setCurrentSlide(idx)} className={`h-1.5 rounded-full transition-all duration-300 ${currentSlide === idx ? "w-8 bg-red-500" : "w-2 bg-white/30"}`} />
+                <button key={idx} onClick={() => setCurrentSlide(idx)} aria-label={`Chuyển đến slide ${idx + 1}`} className={`h-1.5 rounded-full transition-all duration-300 ${currentSlide === idx ? "w-8 bg-red-500" : "w-2 bg-white/40"}`} />
               ))}
             </div>
           </div>
