@@ -46,21 +46,21 @@ export default function Home() {
       title: "Sửa Xe Máy & Phụ Tùng",
       highlight: "Chính Hãng",
       desc: "Đội phản ứng nhanh cứu hộ tận nơi khi gặp sự cố trên đường hoặc tại nhà. Báo đúng giá, phụ tùng chính hãng bảo hành dài hạn.",
-      image: "/CHINH.png",
+      image: "/CHINH2.png",
     },
     {
       badge: "Cứu hộ khẩn cấp 24/7",
       title: "Cứu Hộ Chết Máy",
       highlight: "Tận Nơi 15 Phút",
       desc: "Hỗ trợ vá vỏ lưu động, kích sạc bình ắc quy, xử lý xe chết máy ngập nước thần tốc khu vực Biên Hòa, Long Bình, Tam Phước.",
-      image: "/CHINH.png",
+      image: "/CHINH3.png",
     },
     {
       badge: "Bảo dưỡng tiêu chuẩn",
       title: "Bảo Dưỡng Toàn Diện",
       highlight: "Êm Ái Tiết Kiệm",
       desc: "Vệ sinh kim phun, buồng đốt, làm nồi, thay nhớt cao cấp giúp xe vận hành mượt mà và bền bỉ như xe mới.",
-      image: "/CHINH.png",
+      image: "/CHINH2.png",
     },
   ];
 
@@ -330,8 +330,9 @@ export default function Home() {
         )}
       </header>
 
-      {/* 3. Hero Section - Lộ rõ bảng hiệu trên Mobile và Desktop */}
-      <section className="relative bg-slate-950 text-white min-h-[580px] md:min-h-[600px] flex flex-col md:flex-row md:items-center justify-between overflow-hidden">
+      {/* 3. Hero Section - Lộ rõ bảng hiệu 100% trên Mobile & Desktop */}
+      <section className="relative bg-slate-950 text-white overflow-hidden flex flex-col md:flex-row md:items-center justify-between min-h-[560px] md:min-h-[580px]">
+        {/* Ảnh nền bảng hiệu gara */}
         {BANNER_SLIDES.map((slide, idx) => (
           <div
             key={idx}
@@ -343,65 +344,72 @@ export default function Home() {
             <img
               src={slide.image}
               alt={slide.title}
-              className="w-full h-[260px] md:h-full object-cover object-[18%_center] md:object-[center_left]"
+              className="w-full h-[250px] sm:h-[300px] md:h-full object-cover object-[center_top] md:object-[center_left]"
             />
           </div>
         ))}
 
-        {/* Gradient mờ dần */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-950/80 to-slate-950 md:hidden" />
-        <div className="hidden md:block absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
-        <div className="hidden md:block absolute inset-0 bg-gradient-to-l from-slate-950/95 via-slate-950/70 to-transparent" />
+        {/* Lớp Gradient thông minh */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-950/70 to-slate-950 md:hidden" />
+        <div className="hidden md:block absolute inset-0 bg-gradient-to-r from-transparent via-slate-950/40 to-slate-950/95" />
+        <div className="hidden md:block absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
 
-        {/* Khoảng trống để lộ bảng hiệu trên Mobile */}
-        <div className="h-[210px] md:hidden relative z-10 w-full shrink-0" />
+        {/* Khoảng hở phía trên cho Mobile để bảng hiệu lộ trọn vẹn */}
+        <div className="h-[210px] sm:h-[230px] md:hidden relative z-10 w-full shrink-0" />
 
-        {/* Khối nội dung chữ & nút bấm */}
-        <div className="max-w-7xl mx-auto px-4 relative z-20 w-full flex justify-end pb-20 md:pb-0">
-          <div className="max-w-xl w-full bg-slate-950/90 md:bg-transparent backdrop-blur-md md:backdrop-blur-none p-5 sm:p-7 md:p-0 rounded-3xl border border-white/10 md:border-none shadow-2xl md:shadow-none">
-            <div className="inline-flex items-center gap-2 bg-white/10 border border-white/15 text-white px-3.5 py-1 rounded-full text-[11px] font-bold uppercase mb-3 shadow-xs">
+        {/* Khối chữ & nút bấm */}
+        <div className="max-w-7xl mx-auto px-4 relative z-20 w-full flex justify-end pb-12 md:pb-0">
+          <div className="max-w-xl w-full bg-slate-950/75 md:bg-transparent backdrop-blur-md md:backdrop-blur-none p-4 sm:p-6 md:p-0 rounded-3xl border border-white/10 md:border-none shadow-xl md:shadow-none">
+            
+            {/* Badge tiêu đề */}
+            <div className="inline-flex items-center gap-1.5 bg-red-500/20 md:bg-white/10 border border-red-500/30 md:border-white/15 text-red-300 md:text-white px-3 py-1 rounded-full text-[10px] sm:text-xs font-bold uppercase mb-2 sm:mb-3 shadow-xs">
               <Sparkles className="w-3.5 h-3.5 text-red-400" /> {BANNER_SLIDES[currentSlide].badge}
             </div>
 
-            <h1 className="text-2xl sm:text-4xl md:text-5xl font-black tracking-tight leading-tight mb-3 drop-shadow-md">
+            {/* Tiêu đề chính */}
+            <h1 className="text-xl sm:text-3xl md:text-5xl font-black tracking-tight leading-tight mb-2 sm:mb-3 drop-shadow-md">
               {BANNER_SLIDES[currentSlide].title} <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-rose-400">
                 {BANNER_SLIDES[currentSlide].highlight}
               </span>
             </h1>
 
-            <p className="text-slate-300 text-xs sm:text-sm md:text-base mb-5 leading-relaxed max-w-lg">
+            {/* Mô tả phụ */}
+            <p className="text-slate-300 text-xs sm:text-sm md:text-base mb-4 sm:mb-5 leading-relaxed max-w-lg line-clamp-2 sm:line-clamp-none">
               {BANNER_SLIDES[currentSlide].desc}
             </p>
 
-            <div className="flex flex-wrap gap-2.5">
+            {/* Các nút gọi hành động (CTA) */}
+            <div className="flex items-center gap-2.5 sm:gap-3">
               <a
                 href={`tel:${HOTLINE}`}
-                className="flex-1 sm:flex-none justify-center bg-red-600 hover:bg-red-500 text-white px-4 py-2.5 rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-red-600/30 transition text-xs sm:text-sm"
+                className="flex-1 sm:flex-none justify-center bg-red-600 hover:bg-red-500 active:scale-95 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-red-600/30 transition text-xs sm:text-sm text-center"
               >
-                <PhoneCall className="w-4 h-4 animate-pulse" /> Gọi Cứu Hộ Ngay
+                <PhoneCall className="w-3.5 h-3.5 sm:w-4 sm:h-4 animate-pulse" /> Gọi Cứu Hộ Ngay
               </a>
               <a
                 href="#dat-lich"
                 onClick={(e) => scrollToSection(e, "dat-lich")}
-                className="flex-1 sm:flex-none justify-center bg-white/15 hover:bg-white/25 border border-white/20 text-white px-4 py-2.5 rounded-xl font-bold flex items-center gap-2 transition text-xs sm:text-sm"
+                className="flex-1 sm:flex-none justify-center bg-white/10 hover:bg-white/20 active:scale-95 border border-white/20 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-bold flex items-center gap-2 transition text-xs sm:text-sm text-center"
               >
-                <Calendar className="w-4 h-4" /> Đặt Lịch
+                <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> Đặt Lịch
               </a>
             </div>
 
-            <div className="flex items-center gap-1.5 mt-5">
+            {/* Dấu chấm chuyển Slide */}
+            <div className="flex items-center gap-1.5 mt-4 sm:mt-6">
               {BANNER_SLIDES.map((_, idx) => (
                 <button
                   key={idx}
                   onClick={() => setCurrentSlide(idx)}
                   aria-label={`Chuyển đến slide ${idx + 1}`}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
-                    currentSlide === idx ? "w-7 bg-red-500" : "w-2 bg-white/40"
+                  className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
+                    currentSlide === idx ? "w-7 bg-red-500" : "w-2 bg-white/30 hover:bg-white/60"
                   }`}
                 />
               ))}
             </div>
+
           </div>
         </div>
       </section>
@@ -673,7 +681,7 @@ export default function Home() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="md:col-span-2 mt-2 bg-slate-900 hover:bg-red-600 disabled:bg-slate-400 text-white font-black py-3.5 rounded-xl shadow-lg transition text-xs uppercase tracking-widest flex items-center justify-center gap-2"
+                className="md:col-span-2 mt-2 bg-slate-900 hover:bg-red-600 disabled:bg-slate-400 text-white font-black py-3.5 rounded-xl shadow-lg transition text-xs uppercase tracking-widest flex items-center justify-center gap-2 cursor-pointer"
               >
                 {isSubmitting ? "Đang xử lý..." : "Xác Nhận Đặt Lịch"} <ChevronRight className="w-4 h-4" />
               </button>
@@ -827,7 +835,7 @@ export default function Home() {
                     setIsCartOpen(false);
                     setIsCheckoutOpen(true);
                   }}
-                  className="w-full bg-slate-900 hover:bg-red-600 text-white font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-1.5 transition"
+                  className="w-full bg-slate-900 hover:bg-red-600 text-white font-bold py-3 rounded-xl text-xs flex items-center justify-center gap-1.5 transition cursor-pointer"
                 >
                   <QrCode className="w-4 h-4" /> Thanh Toán Mã QR
                 </button>
@@ -873,7 +881,7 @@ export default function Home() {
                 setIsCheckoutOpen(false);
                 alert("Đã ghi nhận thanh toán thành công!");
               }}
-              className="w-full bg-slate-900 hover:bg-emerald-600 text-white font-bold py-3 rounded-xl text-xs uppercase transition flex items-center justify-center gap-1.5"
+              className="w-full bg-slate-900 hover:bg-emerald-600 text-white font-bold py-3 rounded-xl text-xs uppercase transition flex items-center justify-center gap-1.5 cursor-pointer"
             >
               <Check className="w-4 h-4" /> Tôi Đã Chuyển Khoản
             </button>
@@ -936,7 +944,7 @@ export default function Home() {
       {showBackToTop && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-24 right-4 z-40 w-11 h-11 bg-slate-900/80 backdrop-blur text-white rounded-full shadow-lg flex items-center justify-center"
+          className="fixed bottom-24 right-4 z-40 w-11 h-11 bg-slate-900/80 backdrop-blur text-white rounded-full shadow-lg flex items-center justify-center cursor-pointer"
         >
           <ArrowUp className="w-4 h-4" />
         </button>
